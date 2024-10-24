@@ -1,0 +1,47 @@
+.card-header i:hover {
+    cursor: pointer;
+    color: #ebb548;
+}
+
+.scan-data h6 {
+    font-size: 0.8rem !important;
+}
+
+.preview-video {
+    text-align: center;
+}
+
+.view-img {
+    max-width: 360px;
+}
+
+@media (max-width: 800px) {
+
+    .page-title-head {
+        padding: 1rem 0 !important;
+    }
+
+    .page-content {
+        padding: 0;
+    }
+
+    .card-body.px-3 {
+        padding: 0.8rem !important;
+    }
+
+
+}
+
+.dt-input {
+    margin: 0 5px;
+}
+
+@media (min-width: 1024px) {
+    .m-mt-3 {
+        margin-top: 1.5rem !important;
+      }
+}
+
+
+/* #objectModal .objecList input{ margin-right: 5px;}
+#objectModal .objecList label{ margin-top: -5px;} */

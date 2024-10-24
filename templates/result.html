@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OCR Result</title>
+    <style>
+        .dot {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: red;
+            border-radius: 50%;
+        }
+        #image-container {
+            position: relative;
+        }
+        .coordinates {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>OCR Result</h1>
+    <p>Employee number : {{ text }}</p>
+    <p>Gender :{{gender}}</p>
+    <a href="{{ url_for('index') }}">Capture another</a>
+    <div class="coordinates" id="coordinates"></div>
+    
+    <div id="image-container">
+        <img id="image" src="{{ url_for('static', filename='human_object/'+gender+'.svg') }}" width="auto" height="600px"> 
+    </div>
+    <script type="text/javascript">
+        document.getElementById('image').addEventListener('click', function(event) {
+                var rect = event.target.getBoundingClientRect();
+                var x = event.clientX - rect.left;
+                var y = event.clientY - rect.top;
+    
+                var dot = document.createElement('div');
+                dot.className = 'dot';
+                dot.style.left = x + 'px';
+                dot.style.top = y + 'px';
+    
+                document.getElementById('image-container').appendChild(dot);
+                document.getElementById('coordinates').textContent = `Clicked Position: X: ${x}, Y: ${y}`;
+                
+            });
+    </script>
+</body>
+
+</html>

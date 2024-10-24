@@ -1,0 +1,1318 @@
+{% extends 'base.html' %}
+{% block content %}
+<!-- Page Content Starts Here -->
+
+<div class="page-content">
+    <div class="page-container">
+        <div class="row">
+            <div class="col-12">
+                <div class="page-title-head d-flex align-items-sm-center flex-sm-row flex-column">
+                    <div class="flex-grow-1">
+                        <h4 class="fs-18 fw-semibold m-0">Reports</h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="">
+            <div class="">
+                <div class="report-form">
+                    <form>
+                        <div class="card mt-2">
+                            <div class="card-body c-form">
+                                <div class="row">
+                                    <div class="form-group col-md-3 mb-0">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="reportType" id="asOnDate"
+                                                value="Asondate">
+                                            <label class="form-check-label" for="asOnDate">As on Date</label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-md-3 mb-0">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="reportType"
+                                                id="monthOnDate" value="Monthondate">
+                                            <label class="form-check-label" for="monthOnDate">Month on Date</label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-md-3 mb-0">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="reportType"
+                                                id="yearOnDate" value="Yearondate">
+                                            <label class="form-check-label" for="yearOnDate">Year on Date</label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-md-3 mb-0">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="reportType"
+                                                id="employeeWise" value="Employeewise">
+                                            <label class="form-check-label" for="employeeWise">Employee wise</label>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group col-md-3 mb-0">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="reportType" id="dateWise"
+                                                value="Datewise">
+                                            <label class="form-check-label" for="dateWise">Date wise</label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-md-3 mb-0">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="reportType"
+                                                id="monthWise" value="Monthwise">
+                                            <label class="form-check-label" for="monthWise">Month wise</label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-md-3 mb-0">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="reportType" id="yearWise"
+                                                value="Yearwise">
+                                            <label class="form-check-label" for="yearWise">Year wise</label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-md-3 mb-0">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="reportType"
+                                                id="metalExceptionWise" value="Metalexceptionwise">
+                                            <label class="form-check-label" for="metalExceptionWise">Metal exception
+                                                wise</label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-md-3 mb-0">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="reportType"
+                                                id="buildingWise" value="Buildingwise">
+                                            <label class="form-check-label" for="buildingWise">Building wise</label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-md-3 mb-0">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="reportType"
+                                                id="floorWise" value="Floorwise">
+                                            <label class="form-check-label" for="floorWise">Floor wise</label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-md-3 mb-0">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="reportType"
+                                                id="stationWise" value="Stationwise">
+                                            <label class="form-check-label" for="stationWise">Station wise</label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-md-3 mb-0">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="reportType"
+                                                id="shiftWise" value="Shiftwise">
+                                            <label class="form-check-label" for="shiftWise">Shift wise</label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-md-3 mb-0">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="reportType"
+                                                id="transactionWise" value="Transactionwise">
+                                            <label class="form-check-label" for="transactionWise">Transaction
+                                                wise</label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-md-3 mb-0">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="reportType"
+                                                id="genderWise" value="Genderwise">
+                                            <label class="form-check-label" for="genderWise">Gender wise</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="form-group col-md-3 offset-md-9">
+                                        <button id="submitButton" class="btn btn-sm btn-warning d-flex"><i class="ti ti-file-type-xls"
+                                                style="font-size: 1.2rem;"></i>&nbsp; Generate Report</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                
+              
+
+                        <div class="card mt-2" id="filtermaster" name="filtermaster">
+                            <div class="card-body c-form">
+
+                                <div class="row">
+                                    <div class="form-group col-md-3 mb-0" id="year_rpt" name="year_rpt">
+                                        <label for="">Year</label>
+                                        <select class="form-select" id="selected_year" name="selected_year">
+                                        </select>
+                                    </div>
+                                    <div class="form-group col-md-3 mb-0" id="month_rpt" name="month_rpt">
+                                        <label for="">Month</label>
+                                        <select class="form-select" id="selected_month" name="selected_month">
+                                            <option value="">Select Month</option>
+                                            <option value="0">January</option>
+                                            <option value="1">February</option>
+                                            <option value="2">March</option>
+                                            <option value="3">April</option>
+                                            <option value="4">May</option>
+                                            <option value="5">June</option>
+                                            <option value="6">July</option>
+                                            <option value="7">August</option>
+                                            <option value="8">September</option>
+                                            <option value="9">October</option>
+                                            <option value="10">November</option>
+                                            <option value="11">December</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="form-group col-md-3 mb-2" id="fromdate_rpt" name="fromdate_rpt">
+                                        <label for="">From Date</label>
+                                        <input class="form-control" type="date" name="fromdate" id="fromdate" value="">
+                                    </div>
+
+                                    <div class="form-group col-md-3 mb-2" id="todate_rpt" name="todate_rpt">
+                                        <label for="">To Date</label>
+                                        <input class="form-control" type="date" name="todate" id="todate" value="">
+                                    </div>
+
+                                    
+
+                                    <div class="form-group col-md-3  mb-2" id="building_rpt_single" name="building_rpt_single">
+                                        <label for="">Building</label>
+                                        <select class="form-select" id="build_station_id" name="build_station_id">
+
+                                        </select>
+                                    </div>
+                                    <div class="form-group col-md-3  mb-2" id="floor_rpt_single" name="floor_rpt_single">
+                                        <label for="">Floor</label>
+                                        <select class="form-select" id="floor_station_id" name="floor_station_id">
+
+                                        </select>
+                                    </div>
+                                    <div class="form-group col-md-3  mb-2" id="station_rpt_single" name="station_rpt_single">
+                                        <label for="">Station</label>
+                                        <select name="station" class="form-select" id="station">
+
+                                        </select>
+                                    </div>
+
+
+                               
+                                    <div class="form-group col-md-3 mb-2" id="building_rpt" name="building_rpt">
+                                        <label for="">Building Name</label>
+                                        <div class="dropdown">
+                                            <button class="btn btn-info w-100 dropdown-toggle" type="button"
+                                                id="buildingDropdownButton">
+                                                 Select Buildings
+                                            </button>
+                                            <div class="dropdown-menu" id="building_dropdown"
+                                                aria-labelledby="buildingDropdownButton" style="display: none;">
+                                               
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-md-3 mb-2" id="floor_rpt" name="floor_rpt">
+                                        <label for="">Floor Name</label>
+                                        <div class="dropdown">
+                                            <button class="btn btn-info w-100 dropdown-toggle" type="button"
+                                                id="floorDropdownButton">
+                                                Select Floors
+                                            </button>
+                                            <div class="dropdown-menu" id="floor_dropdown"
+                                                aria-labelledby="floorDropdownButton" style="display: none;">
+                                         
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-md-3 mb-2" id="station_rpt" name="station_rpt">
+                                        <label for="">Station Name</label>
+                                        <div class="dropdown">
+                                            <button class="btn btn-info w-100 dropdown-toggle" type="button" id="stationDropdownButton">
+                                                <i class="ti ti-station" style="font-size: 1.3rem;"></i>&nbsp; Select Stations
+                                            </button>
+                                            <div class="dropdown-menu" id="station_dropdown" aria-labelledby="stationDropdownButton" style="display: none;">
+                                              
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-md-3 mb-2" id="employee_rpt">
+                                        <label for="">Employee Name</label>
+                                        <div class="dropdown">
+                                            <button class="btn btn-info w-100 dropdown-toggle" type="button" id="employeeDropdownButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                Select Employees
+                                            </button>
+                                            <div class="dropdown-menu" id="employee_dropdown" aria-labelledby="employeeDropdownButton" style="width: 300px;">
+                                             
+                                                <input type="text" id="employeeSearch" class="form-control mb-2" placeholder="Search Employees">
+                                                <label class="dropdown-item">
+                                                    <input type="checkbox" id="select_all_emp" name="select_all_emp"> Select All
+                                                </label>
+                                                <div id="employeeList">
+                                                   
+                                                </div>
+                                                
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-md-3 mb-2" id="shift_rpt" name="shift_rpt">
+                                        <label for="shiftDropdownButton">Shift</label>
+                                        <div class="dropdown">
+                                            <button class="btn btn-info w-100 dropdown-toggle" type="button" id="shiftDropdownButton">
+                                                Select Shift
+                                            </button>
+                                            <div class="dropdown-menu w-100" id="shift_dropdown" aria-labelledby="shiftDropdownButton" style="display: none;">
+                                                <label class="dropdown-item">
+                                                    <input type="checkbox" id="select_all_shifts" /> Select All
+                                                </label>
+                                                <label class="dropdown-item">
+                                                    <input type="checkbox" class="shift-checkbox" value="S1" /> Shift 1
+                                                </label>
+                                                <label class="dropdown-item">
+                                                    <input type="checkbox" class="shift-checkbox" value="S2" /> Shift 2
+                                                </label>
+                                                <label class="dropdown-item">
+                                                    <input type="checkbox" class="shift-checkbox" value="S3" /> Shift 3
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-md-3 mb-2" id="entry_rpt" name="entry_rpt">
+                                        <label for="entryDropdownButton">Transaction type</label>
+                                        <div class="dropdown">
+                                            <button class="btn btn-info w-100 dropdown-toggle" type="button" id="entryDropdownButton">
+                                                 Select Entry Type
+                                            </button>
+                                            <div class="dropdown-menu w-100" id="entry_dropdown" aria-labelledby="entryDropdownButton" style="display: none;">
+                                                <label class="dropdown-item">
+                                                    <input type="checkbox" id="select_all_entries" /> Select All
+                                                </label>
+                                                <label class="dropdown-item">
+                                                    <input type="checkbox" class="entry-checkbox" value="in" /> IN
+                                                </label>
+                                                <label class="dropdown-item">
+                                                    <input type="checkbox" class="entry-checkbox" value="out" /> OUT
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-md-3 mb-0" id="gender_rpt">
+                                        <label for="">Gender</label>
+                                        <div class="dropdown">
+                                            <button class="btn btn-info dropdown-toggle w-100" type="button" id="genderDropdownButton">
+                                                 Select Gender
+                                            </button>
+                                            <div class="dropdown-menu" id="gender_dropdown" aria-labelledby="genderDropdownButton" style="display: none;">
+                                                <label class="dropdown-item">
+                                                    <input type="checkbox" id="select_all_gender" /> Select All
+                                                </label>
+                                                <div class="form-check">
+                                                    <input class="form-check-input gender_option" type="checkbox" value="male" id="male" />
+                                                    <label class="form-check-label" for="male">Male</label>
+                                                </div>
+                                                <div class="form-check">
+                                                    <input class="form-check-input gender_option" type="checkbox" value="female" id="female" />
+                                                    <label class="form-check-label" for="female">Female</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-md-3 mb-2" id="metal_exception_rpt" name="metal_exception_rpt">
+                                        <label for="">Metal Exception</label>
+                                        <div class="dropdown">
+                                            <button class="btn btn-info w-100 dropdown-toggle" type="button"
+                                                id="metalExceptionDropdownButton">
+                                             Select Metal Exceptions
+                                            </button>
+                                            <div class="dropdown-menu" id="metal_exception_dropdown"
+                                                aria-labelledby="metalExceptionDropdownButton" style="display: none;">
+                                                <label class="dropdown-item">
+                                                    <input type="checkbox" id="select_all_metal" /> Select All
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+</div>
+</div>
+
+
+
+
+
+
+{% endblock %}
+{%block javascripts %}
+<script src="{{request.root}}static/js/dataTables.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#employeeSearch').on('keyup', filterEmployees);
+        $('#floor_station_id').val(''); 
+        $('#station').val('') ;
+        $('#filtermaster').hide();
+        $('#employeeDropdownButton').click(function (e) {
+            e.stopPropagation();
+            $('#employee_dropdown').toggle();
+        });
+        $('#genderDropdownButton').click(function (e) {
+        e.stopPropagation();
+        $('#gender_dropdown').toggle();
+        });
+        $('#shiftDropdownButton').click(function (e) {
+        e.stopPropagation();
+        $('#shift_dropdown').toggle();
+        });
+        $('#entryDropdownButton').click(function (e) {
+        e.stopPropagation();
+        $('#entry_dropdown').toggle();
+        });
+        $('#metalExceptionDropdownButton').click(function (e) {
+        e.stopPropagation();
+        $('#metal_exception_dropdown').toggle();
+        });
+
+        $('#buildingDropdownButton').click(function (e) {
+        e.stopPropagation(); 
+        $('#building_dropdown').toggle(); 
+        });
+        $('#floorDropdownButton').click(function (e) {
+        e.stopPropagation();
+        $('#floor_dropdown').toggle();
+        });
+        $('#stationDropdownButton').click(function (e) {
+        e.stopPropagation();
+        $('#station_dropdown').toggle();
+        });
+        $(document).click(function (e) {
+            if (!$(e.target).closest('#employee_dropdown').length && !$(e.target).closest('#employeeDropdownButton').length) {
+                $('#employee_dropdown').hide();
+            }
+            if (!$(e.target).closest('#gender_dropdown').length && !$(e.target).closest('#genderDropdownButton').length) {
+            $('#gender_dropdown').hide();
+            }
+            if (!$(e.target).closest('#shift_dropdown').length && !$(e.target).closest('#shiftDropdownButton').length) {
+            $('#shift_dropdown').hide();
+            }
+            if (!$(e.target).closest('#entry_dropdown').length && !$(e.target).closest('#entryDropdownButton').length) {
+                $('#entry_dropdown').hide();
+            }
+            if (!$(e.target).closest('#metal_exception_dropdown').length && !$(e.target).closest('#metalExceptionDropdownButton').length) {
+            $('#metal_exception_dropdown').hide();
+            }
+            if (!$(e.target).closest('#building_dropdown').length && !$(e.target).closest('#buildingDropdownButton').length) {
+            $('#building_dropdown').hide(); // Hide the dropdown
+            }
+            if (!$(e.target).closest('#floor_dropdown').length && !$(e.target).closest('#floorDropdownButton').length) {
+            $('#floor_dropdown').hide();
+        }
+        if (!$(e.target).closest('#station_dropdown').length && !$(e.target).closest('#stationDropdownButton').length) {
+            $('#station_dropdown').hide();
+        }
+        });
+        const currentYear = new Date().getFullYear();
+        const startYear = 2023;
+        $('#selected_year').append(`<option value="">Select Year</option>`);
+        for (let year = startYear; year <= currentYear; year++) {
+            $('#selected_year').append(`<option value="${year}">${year}</option>`);
+        }
+
+        $('#selected_year, #selected_month').change(function () {
+            var year = $('#selected_year').val();
+            var month = $('#selected_month').val();
+            var selectedReportType = $('input[name="reportType"]:checked').val();
+            if (selectedReportType == 'Monthwise') {
+                var fromDate = new Date(year, month, 1);
+                var toDate = new Date(year, parseInt(month) + 1, 0);
+                var fromDateString = fromDate.getFullYear() + '-' + String(fromDate.getMonth() + 1).padStart(2, '0') + '-' + String(fromDate.getDate()).padStart(2, '0');
+                var toDateString = toDate.getFullYear() + '-' + String(toDate.getMonth() + 1).padStart(2, '0') + '-' + String(toDate.getDate()).padStart(2, '0');
+
+                $('#fromdate').attr('min', fromDateString).attr('max', toDateString);
+                $('#todate').attr('min', fromDateString).attr('max', toDateString);
+
+                $('#fromdate').val(fromDateString);
+                $('#todate').val(toDateString);
+            } else {
+                $('#fromdate').val('').attr('min', '').attr('max', '');
+                $('#todate').val('').attr('min', '').attr('max', '');
+            }
+        });
+        $('#submitButton').on('click', function () {
+            event.preventDefault();
+            var selectedReportType = $('input[name="reportType"]:checked').val();
+            var fromdate = $('#fromdate').val();
+            var todate = $('#todate').val();
+            var selectedEmployees = [];
+            $('.employee-checkbox:checked').each(function () {
+                selectedEmployees.push($(this).val());
+            });
+
+            var EmployeeCount = selectedEmployees.length;
+            var selectedGenders = [];
+            $('.gender_option:checked').each(function () {
+            selectedGenders.push($(this).val());
+            });
+            var GenderCount = selectedGenders.length;
+
+            var selectedEntries = [];
+            $('.entry-checkbox:checked').each(function () {
+            selectedEntries.push($(this).val());
+            });
+            var EntryCount = selectedEntries.length;
+
+            var selectedShifts = [];
+            $('.shift-checkbox:checked').each(function () {
+            selectedShifts.push($(this).val());
+            });
+            var ShiftCount = selectedShifts.length;
+            var unselectedMetals = [];
+            $('.metal-exception-checkbox').each(function () {
+            if ($(this).is(':checked')) {
+            unselectedMetals.push($(this).val());
+            }
+            });
+            const selectedBuildingIds = getSelectedBuildingIds(); 
+            const selectedFloorIds = getSelectedFloorIds(); 
+            const selectedStationIds = getSelectedStationIds(); 
+
+            if (selectedReportType) {
+                const formData = new FormData();
+                formData.append('reportType', selectedReportType);
+                formData.append('fromdate', fromdate);
+                formData.append('todate', todate);
+                formData.append('EmployeeCount', EmployeeCount);
+                formData.append('selectedEmployees', JSON.stringify(selectedEmployees));
+                formData.append('selected_year', $('#selected_year').val()); 
+                formData.append('selected_objects',JSON.stringify(unselectedMetals));            
+                formData.append('ShiftCount', ShiftCount);
+                formData.append('selectedShifts', JSON.stringify(selectedShifts));
+                formData.append('EntryCount', EntryCount);
+                formData.append('selectedEntries', JSON.stringify(selectedEntries));
+                formData.append('GenderCount', GenderCount);
+                formData.append('selectedGenders', JSON.stringify(selectedGenders));
+                formData.append('selected_build_all', JSON.stringify(selectedBuildingIds));
+                formData.append('selected_floor_all', JSON.stringify(selectedFloorIds));
+                formData.append('selected_station_all', JSON.stringify(selectedStationIds));
+                
+                if(selectedReportType=='Buildingwise')
+                {
+                var build = $('#build_station_id').val();
+                if (build != null) {                  
+                formData.append('selected_build', build);
+                }
+                else
+                {
+                    alert("Please Select Building");
+                    return;
+                }
+
+                }
+                if(selectedReportType=='Floorwise')
+                {
+                var build = $('#build_station_id').val();
+                if (build != null) {
+                  
+                formData.append('selected_build', build);
+                }
+                else
+                {
+                    alert("Please Select Building");
+                    return;
+                }
+                var floor = $('#floor_station_id').val();
+                if (floor != null) {
+                  
+                formData.append('selected_floor', floor);
+                }
+                else
+                {
+                    alert("Please Select Floor");
+                    return;
+                }
+                }
+
+                if(selectedReportType=='Stationwise')
+                {
+                var build = $('#build_station_id').val();
+                if (build != null) {
+                  
+                formData.append('selected_build', build);
+                }
+                else
+                {
+                    alert("Please Select Building");
+                    return;
+                }
+                var floor = $('#floor_station_id').val();
+                if (floor != null) {
+                  
+                formData.append('selected_floor', floor);
+                }
+                else
+                {
+                    alert("Please Select Floor");
+                    return;
+                }
+                var stationVal = $('#station').val();
+                if (stationVal != null) {
+                    
+                formData.append('selected_station', stationVal);
+                }
+                else
+                {
+                    alert("Please Select Station")
+                }
+                }
+                $.ajax({
+                    type: "POST",
+                    url: "/report/generated-report",
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function (response) {
+                        if (response.file_url) {
+                            window.location.href = response.file_url;  
+                        } else {
+                            alert("Report generated: " + response.message);
+                        }
+                    },
+                    error: function (error) {
+                        alert("Error generating report: " + error);
+                    }
+                });
+            } else {
+                alert("Please select a report type.");
+            }
+        });
+        $('input[name="reportType"]').change(function () {
+            var selectedReportType = $('input[name="reportType"]:checked').val();
+            $('#fromdate').val('').attr('min', '').attr('max', '');
+            $('#todate').val('').attr('min', '').attr('max', '');
+            $('#month_rpt').hide();
+            $('#year_rpt').hide();
+            updateDate();
+
+            if (selectedReportType === 'Asondate') {
+                $('#filtermaster').hide();
+            }
+            else if (selectedReportType === 'Monthondate') {
+                $('#filtermaster').hide();
+            }
+            else if (selectedReportType === 'Yearondate') {
+                $('#filtermaster').hide();
+            }
+            else if (selectedReportType === 'Employeewise') {
+                $('#filtermaster').show();
+                $('#fromdate_rpt').show();
+                $('#todate_rpt').show();
+                $('#employee_rpt').show();
+                $('#building_rpt').show();
+                $('#floor_rpt').show();
+                $('#station_rpt').show();
+                $('#shift_rpt').show();
+                $('#entry_rpt').show();
+                $('#gender_rpt').show();
+                $('#metal_exception_rpt').show();
+                $('#floor_rpt_single').hide();
+                $('#station_rpt_single').hide();
+                $('#building_rpt_single').hide();
+            }
+            else if (selectedReportType === 'Datewise') {
+                $('#filtermaster').show();
+                $('#fromdate_rpt').show();
+                $('#todate_rpt').show();
+                $('#employee_rpt').show();
+                $('#building_rpt').show();
+                $('#floor_rpt').show();
+                $('#station_rpt').show();
+                $('#shift_rpt').show();
+                $('#entry_rpt').show();
+                $('#gender_rpt').show();
+                $('#metal_exception_rpt').show();
+                $('#floor_rpt_single').hide();
+                $('#station_rpt_single').hide();
+                $('#building_rpt_single').hide();
+            }
+            else if (selectedReportType === 'Monthwise') {
+                $('#filtermaster').show();
+                $('#month_rpt').show();
+                $('#year_rpt').show();
+                $('#fromdate_rpt').show();
+                $('#todate_rpt').show();
+                $('#employee_rpt').show();
+                $('#building_rpt').show();
+                $('#floor_rpt').show();
+                $('#station_rpt').show();
+                $('#shift_rpt').show();
+                $('#entry_rpt').show();
+                $('#gender_rpt').show();
+                $('#metal_exception_rpt').show();
+                $('#floor_rpt_single').hide();
+                $('#station_rpt_single').hide();
+                $('#building_rpt_single').hide();
+
+            }
+            else if (selectedReportType === 'Yearwise') {
+                $('#filtermaster').show();
+                $('#year_rpt').show();
+                $('#fromdate_rpt').hide();
+                $('#todate_rpt').hide();
+                $('#employee_rpt').show();
+                $('#building_rpt').show();
+                $('#floor_rpt').show();
+                $('#station_rpt').show();
+                $('#shift_rpt').show();
+                $('#entry_rpt').show();
+                $('#gender_rpt').show();
+                $('#metal_exception_rpt').show();
+                $('#floor_rpt_single').hide();
+                $('#station_rpt_single').hide();
+                $('#building_rpt_single').hide();
+            }
+            else if (selectedReportType === 'Metalexceptionwise') {
+                $('#filtermaster').show();
+                $('#fromdate_rpt').show();
+                $('#todate_rpt').show();
+                $('#employee_rpt').show();
+                $('#building_rpt').show();
+                $('#floor_rpt').show();
+                $('#station_rpt').show();
+                $('#shift_rpt').show();
+                $('#entry_rpt').show();
+                $('#gender_rpt').show();
+                $('#metal_exception_rpt').show();
+                $('#floor_rpt_single').hide();
+                $('#station_rpt_single').hide();
+                $('#building_rpt_single').hide();
+            }
+            else if (selectedReportType === 'Buildingwise') {
+                $('#filtermaster').show();
+                $('#fromdate_rpt').show();
+                $('#todate_rpt').show();
+                $('#employee_rpt').show();
+                $('#employee_rpt').show();
+                $('#building_rpt').hide();
+                $('#floor_rpt').hide();
+                $('#station_rpt').hide();
+                $('#shift_rpt').show();
+                $('#entry_rpt').show();
+                $('#gender_rpt').show();
+                $('#metal_exception_rpt').show();
+                $('#floor_rpt_single').hide();
+                $('#station_rpt_single').hide();
+                $('#building_rpt_single').show();
+            }
+            else if (selectedReportType === 'Floorwise') {
+                $('#filtermaster').show();
+                $('#fromdate_rpt').show();
+                $('#todate_rpt').show();
+                $('#employee_rpt').show();
+                $('#employee_rpt').show();
+                $('#building_rpt').hide();
+                $('#floor_rpt').hide();
+                $('#station_rpt').hide();
+                $('#shift_rpt').show();
+                $('#entry_rpt').show();
+                $('#gender_rpt').show();
+                $('#metal_exception_rpt').show();
+                $('#floor_rpt_single').show();
+                $('#station_rpt_single').hide();
+                $('#building_rpt_single').show();
+            }
+            else if (selectedReportType === 'Stationwise') {
+                $('#filtermaster').show();
+                $('#fromdate_rpt').show();
+                $('#todate_rpt').show();
+                $('#employee_rpt').show();
+                $('#building_rpt').hide();
+                $('#floor_rpt').hide();
+                $('#station_rpt').hide();
+                $('#shift_rpt').show();
+                $('#entry_rpt').show();
+                $('#gender_rpt').show();
+                $('#metal_exception_rpt').show();
+                $('#floor_rpt_single').show();
+                $('#station_rpt_single').show();
+                $('#building_rpt_single').show();
+            }
+            else if (selectedReportType === 'Shiftwise') {
+                $('#filtermaster').show();
+                $('#fromdate_rpt').show();
+                $('#todate_rpt').show();
+                $('#employee_rpt').show();
+                $('#building_rpt').show();
+                $('#floor_rpt').show();
+                $('#station_rpt').show();
+                $('#shift_rpt').show();
+                $('#entry_rpt').show();
+                $('#gender_rpt').show();
+                $('#metal_exception_rpt').show();
+                $('#floor_rpt_single').hide();
+                $('#station_rpt_single').hide();
+                $('#building_rpt_single').hide();
+            }
+            else if (selectedReportType === 'Transactionwise') {
+                $('#filtermaster').show();
+                $('#fromdate_rpt').show();
+                $('#todate_rpt').show();
+                $('#employee_rpt').show();
+                $('#building_rpt').show();
+                $('#floor_rpt').show();
+                $('#station_rpt').show();
+                $('#shift_rpt').show();
+                $('#entry_rpt').show();
+                $('#gender_rpt').show();
+                $('#metal_exception_rpt').show();
+                $('#floor_rpt_single').hide();
+                $('#station_rpt_single').hide();
+                $('#building_rpt_single').hide();
+            }
+            else if (selectedReportType === 'Genderwise') {
+                $('#filtermaster').show();
+                $('#fromdate_rpt').show();
+                $('#todate_rpt').show();
+                $('#employee_rpt').show();
+                $('#building_rpt').show();
+                $('#floor_rpt').show();
+                $('#station_rpt').show();
+                $('#shift_rpt').show();
+                $('#entry_rpt').show();
+                $('#gender_rpt').show();
+                $('#metal_exception_rpt').show();
+                $('#floor_rpt_single').hide();
+                $('#station_rpt_single').hide();
+                $('#building_rpt_single').hide();
+            }
+
+        });
+   
+        updateDate();
+
+        getEmployeelist();
+        getbuildinglist();
+        getMetalExceptionList() ;
+        $('#build_station_id').change(function () {
+            var buildingId = $(this).val();
+            getfloor(buildingId);
+        });
+        $("body").on("change", "#floor_station_id", function () {
+            getstation();
+
+        })
+  
+    
+
+        $('#select_all_emp').change(function () {
+            
+            $('.employee-checkbox').prop('checked', this.checked);
+            updateEntryButtonText();
+        });
+        $('#employee_dropdown').on('change', '#select_all_emp', function () {
+        var isChecked = $(this).is(':checked');
+        $('.employee-checkbox').prop('checked', isChecked);
+        updateEmpButtonText();
+        });
+
+        $('#employee_dropdown').on('change', '.employee-checkbox', function () {
+        var allChecked = $('.employee-checkbox').length === $('.employee-checkbox:checked').length;
+        $('#select_all_emp').prop('checked', allChecked);
+        updateEmpButtonText();
+        });
+
+
+        $('#select_all_gender').change(function() {
+        
+        $('.gender_option').prop('checked', this.checked);
+        updateGenderButtonText();
+        });
+
+        $('.gender_option').change(function() {
+            if (!this.checked) {
+                $('#select_all_gender').prop('checked', false);
+            }
+        
+            if ($('.gender_option:checked').length === $('.gender_option').length) {
+                $('#select_all_gender').prop('checked', true);
+            }
+        updateGenderButtonText();
+        });
+
+        $('#select_all_shifts').change(function () {
+            $('.shift-checkbox').prop('checked', this.checked);
+            updateShiftButtonText();
+        });
+
+        $('#select_all_entries').change(function () {
+            $('.entry-checkbox').prop('checked', this.checked);
+            updateEntryButtonText();
+        });
+
+        $('.shift-checkbox').change(function () {
+            if (!this.checked) {
+                $('#select_all_shifts').prop('checked', false);
+            }
+            if ($('.shift-checkbox:checked').length === $('.shift-checkbox').length) {
+                $('#select_all_shifts').prop('checked', true);
+            }
+             updateShiftButtonText();
+        });
+
+        $('.entry-checkbox').change(function () {
+        if (!this.checked) {
+            $('#select_all_entries').prop('checked', false);
+        }
+        if ($('.entry-checkbox:checked').length === $('.entry-checkbox').length) {
+            $('#select_all_entries').prop('checked', true);
+        }
+        updateEntryButtonText();
+        });
+
+        $('#building_dropdown').on('change', '#select_all_buildings', function () {
+        var isChecked = $(this).is(':checked');
+        $('.building-checkbox').prop('checked', isChecked);
+        updateBuildingButtonText(); 
+        getfloorbasedonbuilding();
+    });
+
+    $('#building_dropdown').on('change', '.building-checkbox', function () {
+        var allChecked = $('.building-checkbox').length === $('.building-checkbox:checked').length;
+        $('#select_all_buildings').prop('checked', allChecked);
+        updateBuildingButtonText(); 
+        getfloorbasedonbuilding();
+    });
+
+
+
+getBuildinglist();
+
+
+$('#metal_exception_dropdown').on('change', '#select_all_metal', function () {
+    var isChecked = $(this).is(':checked');
+    $('.metal-exception-checkbox').prop('checked', isChecked);
+    updateMetalExceptionButtonText();
+});
+
+
+$('#metal_exception_dropdown').on('change', '.metal-exception-checkbox', function () {
+    var allChecked = $('.metal-exception-checkbox').length === $('.metal-exception-checkbox:checked').length;
+    $('#select_all_metal').prop('checked', allChecked);
+    updateMetalExceptionButtonText();
+});
+
+
+$('#floor_dropdown').on('change', '#select_all_floors', function () {
+    var isChecked = $(this).is(':checked');
+    $('.floor-checkbox').prop('checked', isChecked); 
+    updateFloorButtonText(); 
+    getStationsBasedOnBuilding();
+});
+
+
+$('#floor_dropdown').on('change', '.floor-checkbox', function () { 
+    var allChecked = $('.floor-checkbox').length === $('.floor-checkbox:checked').length; 
+    $('#select_all_floors').prop('checked', allChecked); 
+    updateFloorButtonText(); 
+    getStationsBasedOnBuilding();
+   
+});
+$('#station_dropdown').on('change', '#select_all_stations', function () {
+    var isChecked = $(this).is(':checked');
+    $('.station-checkbox').prop('checked', isChecked); 
+    updateStationButtonText(); 
+});
+
+
+$('#station_dropdown').on('change', '.station-checkbox', function () {
+    var allChecked = $('.station-checkbox').length === $('.station-checkbox:checked').length; 
+    $('#select_all_stations').prop('checked', allChecked); 
+    updateStationButtonText();
+});
+
+
+$('#select_all_entries').prop('checked', true).change();
+$('#select_all_shifts').prop('checked', true).change();
+$('#select_all_gender').prop('checked', true).change();
+
+
+
+
+
+   
+    });
+    function getbuildinglist() {
+            $.ajax({
+                url: '/building/list', 
+                type: 'GET',
+                success: function (response) {
+                    if (response.data) {
+
+                        var buildstationdropdown = $('#build_station_id');
+                        buildstationdropdown.empty();
+                        buildstationdropdown.append('<option value="">Select Building</option>');
+                        $.each(response.data, function (index, building) {
+                            buildstationdropdown.append('<option value="' + building.id + '">' + building.building_name + '</option>');
+                        });
+                    }
+                },
+                error: function () {
+                    alert('Error loading building data');
+                }
+            });
+
+        }
+
+    function getfloor(buildingId, callback) {
+            $('#floor_station_id').empty();
+            $.ajax({
+                url: '/floor/list', 
+                type: 'POST',
+                data: { building_id: buildingId },
+                success: function (response) {
+
+
+                    if (response.length > 0) {
+                        var floordropdown = $('#floor_station_id');
+                        floordropdown.empty();
+                        floordropdown.append('<option value="">Select floor</option>');
+                        $.each(response, function (index, floor) {
+                            floordropdown.append('<option value="' + floor.id + '">' + floor.floor_name + '</option>');
+
+                        });
+                        if (callback) {
+                            callback();
+                        }
+                    } else {
+                        $('#floor_station_id').append('<option>No floors available</option>');
+                    }
+                },
+
+                error: function () {
+                    console.error('Error fetching floor data');
+                }
+            });
+        }
+
+    function getstation() {
+            var building_id = $("#build_station_id").val();
+            var floor_id = $("#floor_station_id").val();
+
+            $('#station').empty();
+            $.ajax({
+                url: '/station/list', // Backend route to get floor data
+                type: 'POST',
+                data: { building_id: building_id, floor_id: floor_id },
+                success: function (response) {
+                    if (response.length > 0) {
+                        // Populate the floor select box with the received floor data
+                        var stationDropdown = $('#station');
+                        stationDropdown.empty();
+                        stationDropdown.append('<option value="">Select station</option>');
+                        for (var i in response) {
+                            stationDropdown.append('<option value="' + response[i]['id'] + '" data-id="' + response[i]['id'] + '" >' + response[i]['station_name'] + '</option>');
+                        }
+
+
+                    } else {
+                        $('#station').append('<option>No stations available</option>');
+                    }
+                },
+
+                error: function () {
+                    console.error('Error fetching station data');
+                }
+            });
+        }
+    function updateDate() {
+            var today = new Date();
+            var yyyy = today.getFullYear();
+            var mm = String(today.getMonth() + 1).padStart(2, '0');
+            var dd = String(today.getDate()).padStart(2, '0');
+            var formattedDate = yyyy + '-' + mm + '-' + dd;
+            $("#todate").val(formattedDate);
+            $("#fromdate").val(formattedDate);
+        }
+    function getEmployeelist() {
+    $.ajax({
+        url: '/employee/emp_list',
+        type: 'GET',
+        success: function (response) {
+            if (response.data) {
+                var employeeList = $('#employeeList');
+                employeeList.empty(); 
+
+                
+                $.each(response.data, function (index, emp) {
+                    employeeList.append('<label class="dropdown-item employee-item"><input type="checkbox" class="employee-checkbox" value="' + emp.employee_number + '">&nbsp; ' + emp.name + '</label>');
+                });
+                
+                $('#select_all_emp').prop('checked', true).change();
+            }
+        },
+        error: function () {
+            alert('Error loading employee data');
+        }
+    });
+}
+function filterEmployees() {
+    var searchValue = $('#employeeSearch').val().toLowerCase(); 
+    
+    $('#employeeList .employee-item').each(function () {
+        var employeeName = $(this).text().toLowerCase();  
+        if (employeeName.includes(searchValue)) {
+            $(this).show();  
+        } else {
+            $(this).hide();  
+        }
+    });
+}
+    function updateBuildingButtonText() {
+        var selectedCount = $('.building-checkbox:checked').length;
+        $('#building_button').text(selectedCount > 0 ? `Selected: ${selectedCount}` : 'Select Buildings'); // Update button text
+    }
+    function updateEmpButtonText() {
+            var selectedCount = $('.employee-checkbox:checked').length;
+
+            if (selectedCount === 0) {
+                $('#employeeDropdownButton').text('Select Employees');
+            } else if (selectedCount === $('.employee-checkbox').length) {
+                $('#employeeDropdownButton').text('All Employees Selected');
+            } else {
+                $('#employeeDropdownButton').text(selectedCount + ' Employees Selected');
+            }
+    }
+    function updateGenderButtonText() {
+        var selectedCount = $('.gender_option:checked').length;
+
+        if (selectedCount === 0) {
+            $('#genderDropdownButton').text('Select Gender');
+        } else if (selectedCount === $('.gender_option').length) {
+            $('#genderDropdownButton').text('All Genders Selected');
+        } else {
+            $('#genderDropdownButton').text(selectedCount + ' Gender(s) Selected');
+        }
+    }
+    function updateShiftButtonText() {
+        var selectedCount = $('.shift-checkbox:checked').length;
+
+        if (selectedCount === 0) {
+            $('#shiftDropdownButton').text('Select Shift');
+        } else if (selectedCount === $('.shift-checkbox').length) {
+            $('#shiftDropdownButton').text('All Shifts Selected');
+        } else {
+            $('#shiftDropdownButton').text(selectedCount + ' Shift(s) Selected');
+        }
+    }
+    function updateEntryButtonText() {
+        var selectedCount = $('.entry-checkbox:checked').length;
+
+        if (selectedCount === 0) {
+            $('#entryDropdownButton').text('Select Entry Type');
+        } else if (selectedCount === $('.entry-checkbox').length) {
+            $('#entryDropdownButton').text('All Entry Types Selected');
+        } else {
+            $('#entryDropdownButton').text(selectedCount + ' Entry Type(s) Selected');
+        }
+    }
+
+    function getMetalExceptionList() {
+    $.ajax({
+        url: '/object/get-list',  // Update URL to correct endpoint
+        type: 'GET',
+        success: function (response) {
+            if (response.data) {
+                var metalExceptionDropdown = $('#metal_exception_dropdown');
+                metalExceptionDropdown.empty();
+
+                metalExceptionDropdown.append('<label class="dropdown-item"><input type="checkbox" id="select_all_metal"> Select All</label>');
+
+                $.each(response.data, function (index, exception) {
+                    metalExceptionDropdown.append('<label class="dropdown-item"><input type="checkbox" class="metal-exception-checkbox" value="' + exception.id + '">&nbsp; ' + exception.object_name + '</label>');
+                });
+            }
+        },
+        error: function () {
+            alert('Error loading metal exception data');
+        }
+    });
+}
+function getfloorbasedonbuilding()
+{
+    const selectedBuildingIds = getSelectedBuildingIds();
+    if (selectedBuildingIds.length) {
+        $.ajax({
+            url: '/building/floor-detail',
+            type: 'POST',
+            data: JSON.stringify({ building_ids: selectedBuildingIds }),
+            contentType: 'application/json',
+            success: function (response) {
+                var floorDropdown = $('#floor_dropdown');
+                floorDropdown.empty(); 
+
+               
+                floorDropdown.append(`
+                    <label class="dropdown-item">
+                        <input type="checkbox" id="select_all_floors"> Select All Floors
+                    </label>
+                `);
+
+                $.each(response.data, function (index, floor) {
+                    floorDropdown.append(`
+                        <label class="dropdown-item">
+                            <input type="checkbox" class="floor-checkbox" value="${floor.id}">
+                            ${floor.floor_name} (${floor.building_name})
+                        </label>
+                    `);
+                });
+                $('#select_all_floors').prop('checked', true).change();
+            },
+            error: function () {
+                alert('Error loading floor data');
+            }
+        });
+    } else {
+        $('#floor_dropdown').empty(); 
+    }
+}
+function getSelectedBuildingIds() {
+    let selectedBuildingIds = [];
+    $('.building-checkbox:checked').each(function() {
+        selectedBuildingIds.push($(this).val()); 
+    });
+    return selectedBuildingIds;
+}
+function getSelectedFloorIds() {
+    let selectedFloorIds = [];
+    $('.floor-checkbox:checked').each(function() {
+        selectedFloorIds.push($(this).val()); 
+    });
+    return selectedFloorIds;
+}
+function getSelectedStationIds() {
+    let selectedStationIds = [];
+    $('.station-checkbox:checked').each(function() {
+        selectedStationIds.push($(this).val()); 
+    });
+    return selectedStationIds;
+}
+function getStationsBasedOnBuilding() {
+    const selectedBuildingIds = getSelectedBuildingIds(); 
+    const selectedFloorIds = getSelectedFloorIds(); 
+    if (selectedBuildingIds.length) {
+        $.ajax({
+            url: '/building/floor/station-detail', 
+            type: 'POST',
+            data: JSON.stringify({
+                building_ids: selectedBuildingIds,
+                floor_ids: selectedFloorIds
+            }),
+            contentType: 'application/json',
+            success: function (response) {
+                var stationDropdown = $('#station_dropdown');
+                stationDropdown.empty(); 
+
+                
+                stationDropdown.append(`
+                    <label class="dropdown-item">
+                        <input type="checkbox" id="select_all_stations"> Select All Stations
+                    </label>
+                `);
+
+                
+                $.each(response.data, function (index, station) {
+                    stationDropdown.append(`
+                        <label class="dropdown-item">
+                            <input type="checkbox" class="station-checkbox" value="${station.station_id}">
+                            (${station.building_name}) (${station.floor_name}) ${station.station_name} 
+                        </label>
+                    `);
+                });
+                $('#select_all_stations').prop('checked', true).change(); 
+            },
+            error: function () {
+                alert('Error loading station data');
+            }
+        });
+    } else {
+        $('#station_dropdown').empty(); 
+    }
+}
+
+
+function updateStationButtonText() {
+    var selectedCount = $('.station-checkbox:checked').length; 
+    var totalCount = $('.station-checkbox').length; 
+
+    if (selectedCount === 0) {
+        $('#stationDropdownButton').text('Select Stations');
+    } else if (selectedCount === totalCount) {
+        $('#stationDropdownButton').text('All Stations Selected'); 
+    } else {
+        $('#stationDropdownButton').text(selectedCount + ' Station(s) Selected');
+    }
+}
+function updateBuildingButtonText() {
+    var selectedCount = $('.building-checkbox:checked').length; 
+    var totalCount = $('.building-checkbox').length; 
+
+    if (selectedCount === 0) {
+        $('#buildingDropdownButton').text('Select Building');
+    } else if (selectedCount === totalCount) {
+        $('#buildingDropdownButton').text('All Buildings Selected');
+    } else {
+        $('#buildingDropdownButton').text(selectedCount + ' Building(s) Selected'); 
+    }
+}
+function updateFloorButtonText() {
+    var selectedCount = $('.floor-checkbox:checked').length; 
+    var totalCount = $('.floor-checkbox').length;
+
+    if (selectedCount === 0) {
+        $('#floorDropdownButton').text('Select Floors');
+    } else if (selectedCount === totalCount) {
+        $('#floorDropdownButton').text('All Floors Selected'); 
+    } else {
+        $('#floorDropdownButton').text(selectedCount + ' Floor(s) Selected'); 
+    }
+}
+
+function updateMetalExceptionButtonText() {
+    var selectedCount = $('.metal-exception-checkbox:checked').length;
+
+    if (selectedCount === 0) {
+        $('#metalExceptionDropdownButton').text('Select Metal Exceptions');
+    } else if (selectedCount === $('.metal-exception-checkbox').length) {
+        $('#metalExceptionDropdownButton').text('All Metal Exceptions Selected');
+    } else {
+        $('#metalExceptionDropdownButton').text(selectedCount + ' Metal Exceptions Selected');
+    }
+}
+function getBuildinglist() {
+        $.ajax({
+            url: '/building/list', // Your endpoint to get building data
+            type: 'GET',
+            success: function (response) {
+                if (response.data) {
+                    var buildingDropdown = $('#building_dropdown');
+                    buildingDropdown.empty();
+                    buildingDropdown.append('<label class="dropdown-item"><input type="checkbox" id="select_all_buildings" name="select_all_buildings"> Select All</label>');
+
+                    $.each(response.data, function (index, building) {
+                        buildingDropdown.append('<label class="dropdown-item"><input type="checkbox" class="building-checkbox" value="' + building.id + '">&nbsp; ' + building.building_name + '</label>');
+                    });
+
+                    $('#select_all_buildings').prop('checked', true).change(); 
+                    //getfloorbasedonbuilding();
+                }
+            },
+            error: function () {
+                alert('Error loading building data');
+            }
+        });
+    }
+</script>
+
+{% endblock %}

@@ -1,0 +1,660 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="page-content">
+    <div class="page-container">
+        <div class="row">
+            <div class="col-sm-3">
+                <div class="page-title-head d-flex align-items-sm-center flex-sm-row flex-column">
+                    <div class="flex-grow-1">
+                        <h4 class="fs-18 fw-semibold m-0">Scan</h4>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-9">
+
+                {% if session['role'] != 'admin' %}
+                <input type="hidden" id="building" value="{{session['building']}}">
+                <input type="hidden" id="floor" value="{{session['floor']}}">
+                <input type="hidden" id="station" value="{{session['station']}}">
+                <input type="hidden" id="shift" value="{{session['shift']}}">
+
+                <div class="row m-mt-3">
+                    <div class="col-6 col-sm-6 col-md-3">
+                        <h6 class="fs-15 mt-1">Shift : <span class="shift">{{shift_name}}</span></h6>
+                    </div>
+                    <div class="col-6 col-sm-6 col-md-3">
+                        <h6 class="fs-15 mt-1">Building : <span class="building">{{building_name}}</span></h6>
+                    </div>
+                    <div class="col-6 col-sm-6 col-md-3">
+                        <h6 class="fs-15 mt-1">Floor : <span class="floor">{{floor_name}}</span></h6>
+                    </div>
+                    <div class="col-6 col-sm-6 col-md-3">
+                        <h6 class="fs-15 mt-1">Station : <span class="station">{{station_name}}</span></h6>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="">
+            <div class="">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-body px-3 scan-data">
+
+                                {% if log_id %}
+                                <input type="hidden" id="log_id" value="{{log_id}}">
+                                {% endif %}
+
+
+                                <h6 class="fs-15 mt-0">Employee Number : <span id="emp_number"></span></h6>
+                                <h6 class="fs-15 mt-3">Employee Name : <span id="emp_name"></span></h6>
+
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <h6 class="fs-15 mt-2">Gender</h6>
+                                        <select class="form-select" id="gender">
+                                            <option value="">--select--</option>
+                                            <option value="male">Male</option>
+                                            <option value="female">Female</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="col-md-4 offset-md-2">
+                                        <h6 class="fs-15 mt-1">&nbsp;</h6>
+                                        <div class="form-check form-check-inline mt-2">
+                                            <input type="radio" class="form-check-input status" name="status" value="in"
+                                                id="in" checked>
+                                            <label class="form-check-label" for="in">IN</label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <input type="radio" class="form-check-input status" name="status"
+                                                value="out" id="out">
+                                            <label class="form-check-label" for="out">OUT</label>
+                                        </div>
+                                    </div>
+                                    <h6 id="log_datetime" class="mt-3" style="display: none;">Log Date & Time :
+                                        <span></span>
+                                    </h6>
+                                    <div id="objectListget"></div>
+                                </div>
+                            </div>
+                        </div>
+          
+                        <img class="mb-3" src="{{ url_for('static', filename='uploads/218251.jpg') }}" id="scannedCard"
+                            style="display:none;width:100%;height: auto;border-radius: 5px; ">
+                     
+
+
+                        <div class="card webcam-box">
+                            <div class="card-body mb-0">
+
+                                <div class="preview-video">
+                                    <center>
+                                        <video id="video" autoplay></video>
+                                        <canvas id="canvas" style="display:none;overflow: hidden !important;"></canvas>
+                                    </center>
+                                    <div class="alert alert-danger text-bg-danger alert-dismissible d-flex align-items-center mt-2 mb-2"
+                                        role="alert" id="error-alert" style="display: none !important;">
+                                        <iconify-icon icon='solar:danger-triangle-bold-duotone'
+                                            class='fs-20 me-1'></iconify-icon>
+                                        <div class='lh-1'><strong>Error - </strong> Can't read the id card , scan again
+                                        </div>
+                                    </div>
+                                    <div class="alert alert-success text-bg-success alert-dismissible d-flex align-items-center" role="alert" id="success-alert" style="display: none !important;">
+                                        <iconify-icon icon="solar:check-read-line-duotone" class="fs-20 me-1"></iconify-icon>
+                                        <div class="lh-1"><strong>Success - </strong> Id cards scaned successfully!</div>
+                                    </div>
+
+                                    
+                                </div>
+
+                                <div class="text-center mt-0 mb-3">
+                                    <button id="capture" class="btn btn-info">Capture</button>
+                                    <button id="save" class="btn btn-success">Save</button>
+                                    <a id="" href="/list-view" class="btn btn-warning">Logs</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-body px-3">
+                                <!-- <div class="mf-img">
+                                    <img src="../img/male.svg" />
+                                </div> -->
+
+                                <div class="outline-img text-center" style="display: none;">
+
+
+                                    <!-- <canvas id="outline-canvas" width="200" height="500"></canvas> -->
+                                </div>
+                                <button id="clear" class="btn btn-danger mt-2 float-right">Clear</button>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+
+                </div>
+            </div>
+        </div>
+
+
+        <div class="row">
+            <div class="col">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="d-block">
+                            <div class="text-block">
+
+
+
+
+                            </div>
+                        </div>
+                        <div class="d-block">
+                            <div class="webcam-box text-center">
+                                <div class="cam-data">
+
+                                    <center>
+
+                                    </center>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- objectModal -->
+<div id="objectModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="standard-modalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="standard-modalLabel">Select Object</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="objecList form-check mb-1">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal" id="clearSelectedDot">Close</button>
+                <button type="button" class="btn btn-info" id="getSelectedObject" data-bs-dismiss="modal" >OK</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div>
+
+{% endblock %}
+{%block javascripts %}
+<script type="text/javascript" src="{{ url_for('static', filename='js/jquery-3.7.1.min.js') }}"></script>
+
+<script>
+    window.onload = function () {
+
+        // DK Edit starts here
+        const videoElement = document.getElementById('video');
+        const canvasElement = document.getElementById('canvas');
+        const screenWidth = window.innerWidth;
+
+        let width, height;
+
+        if (screenWidth < 800) {
+            width = 280;
+            height = 210;
+        } else if (screenWidth < 1024) {
+            width = 380;
+            height = 285;
+        } else if (screenWidth < 1199) {
+            width = 420;
+            height = 315;
+        } else if (screenWidth < 1399) {
+            width = 456;
+            height = 342;
+        } else if (screenWidth < 1599) {
+            width = 580;
+            height = 435;
+        } else if (screenWidth < 1900) {
+            width = 640;
+            height = 480;
+        }
+        else {
+            width = 380;
+            height = 285;
+        }
+
+        //alert(width);
+
+        videoElement.width = width;
+        videoElement.height = height;
+        canvasElement.width = width;
+        canvasElement.height = height;
+
+        // DK edit ends
+
+        const video = document.getElementById('video');
+        const canvas = document.getElementById('canvas');
+        const context = canvas.getContext('2d');
+        const captureButton = document.getElementById('capture');
+        const uploadButton = document.getElementById('save');
+        bodyPartsGroupId = 0;
+        let svgUrl = "{{ url_for('static', filename='human_object/male.svg') }}";
+
+        function isMobileDevice() {
+            return /Mobi|Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+        }
+
+        // Access the camera
+        if ($("#log_id").length == 0) {
+            if (isMobileDevice()) {
+                constraints = {
+                    video: { facingMode: { exact: "environment" } }
+                }
+            } else {
+                constraints = { video: true }
+            }
+            navigator.mediaDevices.getUserMedia(constraints)
+                .then(stream => {
+                    video.srcObject = stream;
+                })
+                .catch(err => {
+                    console.error("Error accessing the camera: " + err);
+                });
+        } else {
+            $("#log_datetime").show()
+        }
+
+      
+
+        if ($("#log_id").length == 1) {
+            $("#clear").hide()
+            $.ajax({
+                type: "GET",
+                url: "/get-log-details",
+                data: { id: $("#log_id").val() },
+                dataType: "json",
+                success: function (res) {
+                    $("#emp_number").text(res.employee_number)
+                    $("#emp_name").text(res.employee_name)
+                    $("#gender").val(res.employee_gender)
+                    $(".shift").text(res.shift)
+                    $(".building").text(res.building)
+                    $(".floor").text(res.floor)
+                    $(".station").text(res.station)
+                    $("#log_datetime > span").text(res.log_date_time)
+                    $(".webcam-box").hide()
+                    if(res.medical_implants_position!=null && res.medical_implants_position!=""){
+                        medical_implants_position = JSON.parse(res.medical_implants_position)
+                    }
+                    
+                    loadSvgAndDraw("{{ url_for('static', filename='human_object/') }}" + res.employee_gender + ".svg",medical_implants_position);
+                    points = JSON.parse(res.points)
+                    obj = JSON.parse(res.objects)
+                    obj = res.bObjects
+                    dotPositions = points
+                    objects = obj
+                    file = "{{ url_for('static', filename='uploads/') }}"+res.image
+                    $("#scannedCard").show().attr('src',file)
+                }
+            });
+        }
+
+
+
+        function clearDotsOnLoad() {
+            bodyPartsGroupId = 0;
+            dotPositions = [];
+            objecList = [];
+            objects = [];
+            objectIds=[];
+            medicalImplants=[]
+            medicalImplantsPosition=[];
+            bodyPartgroupName = '';
+            lastClickedPosition = ""
+            lastPoint={}
+        }
+
+        // Function to load and draw the SVG
+        function loadSvgAndDraw(svgUrl,medicalImplantsPosition=[]) {
+            $(".outline-img").show()
+            clearDotsOnLoad()
+            fetch(svgUrl)
+                .then(response => response.text())
+                .then(svgText => {
+                    $(".outline-img").html(svgText)
+
+                    for (var i in objects) {
+                        $("#objectListget").append(' <h6 class="fs-15 mt-3">'+objects[i]['p']+" - " + objects[i]['g'] + ' : ' + objects[i]['o'] + '</h6>')
+                    }
+                    svg = document.querySelector("svg");
+                    for (var i in dotPositions) {
+                        addDot(dotPositions[i]['x'], dotPositions[i]['y'])
+                    }
+
+                    for (var i in medicalImplantsPosition) {
+                        addDot(medicalImplantsPosition[i]['x'], medicalImplantsPosition[i]['y'],"mi")
+                    }
+                    
+                });
+
+        }
+
+        function reDrawDotPosition(){
+            var tempdotPositions = dotPositions;
+            clearDots()
+        }
+
+        // Function to add dots
+        function addDot(x, y,obj="") {
+            svg = document.querySelector("svg");
+            const dot = document.createElementNS(
+                "http://www.w3.org/2000/svg",
+                "circle"
+            );
+            if(obj!='mi'){
+                dot.setAttribute("class", "red-dot");
+                dot.setAttribute("r", 3);
+                dot.setAttribute("cx", x);
+                dot.setAttribute("cy", y);
+            }else{
+                dot.setAttribute("class", "yellow-dot blink-animation");
+                dot.setAttribute("r", 2.5);
+                dot.setAttribute("cx", x+0.5);
+                dot.setAttribute("cy", y+0.5);
+            }
+            
+            dot.setAttribute("id", "red-dot-"+bodyPartsGroupId);
+           
+            svg.appendChild(dot);
+            bodyPartsGroupId++;
+        }
+
+        function clearDots() {
+            bodyPartsGroupId = 0;
+            dotPositions = [];
+            objecList = [];
+            bodyPartgroupName = '';
+            objects=[]
+            objectIds=[];
+            medicalImplants=[];
+            medicalImplantsPosition=[];
+            lastPoint={}
+            $("#gender").change()
+        }
+
+        dotPositions = [];
+        objects = [];
+        bodyPartgroupName = ''
+        lastclickedPart = ""
+        lastClickedPosition  = "";
+        objectIds = [];
+        medicalImplants = [];
+        medicalImplantsPosition = [];
+        lastPoint = {};
+        
+
+        $("body").on("click", "#clearSelectedDot", function () {
+            $("#"+lastClickedPosition).remove()
+        })
+
+        $("body").on("click", "#getSelectedObject", function () {
+            if( $('.selecedObject:checked').length>0){
+                var selecedObject = $('.selecedObject:checked').map(function() {
+                    if($(this).val()==1){
+                        medicalImplants.push({p:lastclickedPart, g: bodyPartgroupName, 'o':1})
+                        medicalImplantsPosition.push(lastPoint)
+                        console.log(medicalImplantsPosition);
+                    }
+                    if (!objectIds.includes($(this).val())) {
+                        objectIds.push($(this).val());
+                    }
+                    return $(this).val();
+                    
+                }).get().join(',');
+                objects.push({p:lastclickedPart, g: bodyPartgroupName, 'o': selecedObject })
+                
+                $("#objectModal").modal('hide')
+            }else{
+                $("#"+lastClickedPosition).remove()
+            }
+            $(".objecList").html("")
+        })
+
+       
+        $("body").on("click", "svg", function (event) {
+            if (event.target.tagName === "path") {
+                const svg = document.querySelector("svg");
+                const path = event.target;
+                const dataName = path.getAttribute("data-name") || path.id;
+                const groupName = path.getAttribute("group-name") || path.id;
+                lastclickedPart = dataName
+                bodyPartgroupName = groupName
+                // Get the SVG coordinates of the click
+                const svgPoint = svg.createSVGPoint();
+                svgPoint.x = event.clientX;
+                svgPoint.y = event.clientY;
+                const cursorPoint = svgPoint.matrixTransform(
+                    svg.getScreenCTM().inverse()
+                );
+
+                // Prepare output string
+                const output = `${dataName}, x=${cursorPoint.x.toFixed(
+                    3
+                )}, y=${cursorPoint.y.toFixed(3)}`;
+
+                // Show the output in an alert
+                dotPositions.push({ x: cursorPoint.x, y: cursorPoint.y })
+                lastPoint = { x: cursorPoint.x, y: cursorPoint.y }
+                lastClickedPosition = "red-dot"+bodyPartsGroupId;
+                $.ajax({
+                    url: '/object/getgender-object-list',
+                    type: 'POST',
+                    data: { body_part: groupName.charAt(0).toUpperCase() + groupName.slice(1), gender: $("#gender").val() },
+                    success: function (data) {
+                        if(data.error==undefined){
+                            $("#objectModal").modal('show')
+                            $(".objecList").html("")
+                            for (var i in data) {
+                                bodyPartgroupName = data[i]['body_part_id']
+                                $(".objecList").append("<input type='checkbox' class='selecedObject form-check-input' value='" + data[i]['obj_id'] + "' ><label class='form-check-label'>" + data[i]['object_name'] + "</label><br>")
+                            }
+                        }else{
+                            alert(data.error)
+                            $("#"+lastClickedPosition).remove()
+                        }
+                    },error:function(){
+                        alert("Something went wrong")
+                        $("#"+lastClickedPosition).remove()
+                    }
+                });
+
+
+                // Add red dot at the click position
+                const dot = document.createElementNS(
+                    "http://www.w3.org/2000/svg",
+                    "circle"
+                );
+               
+                dot.setAttribute("class", "red-dot");
+                dot.setAttribute("id", "red-dot"+bodyPartsGroupId);
+                dot.setAttribute("cx", cursorPoint.x);
+                dot.setAttribute("cy", cursorPoint.y);
+                dot.setAttribute("r", 2.5);
+                svg.appendChild(dot);
+                bodyPartsGroupId++;
+            }
+        })
+
+      
+
+        $("body").on("click", "#save", function () {
+
+            if ($("#gender").val() == "") {
+                alert("Select gender")
+                return false
+            }
+
+            $(".blinking-text").hide()
+            $.ajax({
+                type: "POST",
+                url: "/saveData",
+                data: { emp_number: $("#emp_number").text(), name: $("#emp_name").text(), gender: $("#gender").val(), 'status': $(".status:checked").val(), 'shift': $("#shift").val(), 'building': $("#building").val(), 'floor': $("#floor").val(), 'station': $("#station").val(), points: JSON.stringify(dotPositions), object: JSON.stringify(objects),object_ids:objectIds.join(','),medical_implants:JSON.stringify(medicalImplants),medical_implants_position:JSON.stringify(medicalImplantsPosition)},
+                dataType: "json",
+                success: function (res) {
+                    if (res.status == 'ok') {
+                        alert('Saved successfully')
+                        resetVideo()
+                        $("#emp_number").text("")
+                        $("#emp_name").text("")
+                        $("#gender").val("")
+                        clearDots()
+                        $(".outline-img").hide()
+                    } else {
+                        alert("Failed:Can't save the data")
+                    }
+                }, error: function (err) {
+                    alert('Something went wrong')
+                    console.log('Something went wrong');
+                    // resetVideo()
+                    // $("#emp_number").text("")
+                    // $("#emp_name").text("")
+                    // $("#gender").val("")
+                }
+            });
+
+        })
+
+        $("body").on("change", "#gender", function () {
+            var gender = $(this).val()
+            setHumanObjectOutLine(gender)
+        })
+
+        function setHumanObjectOutLine(gender) {
+            const newSvgUrl = "{{url_for('static', filename='human_object/') }}" + gender + '.svg';
+            loadSvgAndDraw(newSvgUrl); // Reload canvas with new SVG
+        }
+
+        timeOut = "";
+        function resetVideo() {
+            canvas.style.display = 'none';
+            video.style.display = 'block';
+        }
+
+        // Capture the image when the button is clicked
+        captureButton.addEventListener('click', () => {
+            if (timeOut != "") {
+                clearTimeout(timeOut)
+                $("#error-alert").attr('style','display:none !important')
+            }
+
+
+            // context.drawImage(video, 0, 0, video.width, video.height);
+            context.drawImage(video, 0, 0, video.width, video.height);
+            canvas.style.display = 'block'; // Show the canvas with the captured image
+            video.style.display = 'none';
+            canvas.toBlob(function (blob) {
+                const formData = new FormData();
+                formData.append('image', blob, 'id-card-image1.jpg');
+                formData.append('gender', $("#gender").val());
+
+                const url = '{{request.root}}upload';
+
+                $.ajax({
+                    url: url,  // URL to handle the upload
+                    type: 'POST',  // HTTP method
+                    data: formData,  // Form data containing the blob and gender
+                    processData: false,  // Prevent jQuery from transforming the data into a query string
+                    contentType: false,  // Prevent jQuery from setting the content type
+                    success: function (result) {  // Handle success response
+                        if (result.status === 'ok') {
+                            if (result.emp_number === "") {
+                                $(".blinking-text").text("Employee not found").show();
+                                $("#error-alert").show()
+                                resetVideo();
+                                empNotFound();
+                                timeOut = setTimeout(function () {
+                                    $("#error-alert").attr('style','display:none !important')
+                                }, 4000);
+                            } else {
+                                $("#emp_number").text(result.emp_number);
+                                $("#emp_name").text(result.emp_name);
+                                if(result.medical_implants!="" && result.medical_implants!=null)
+                                    medical_implants = JSON.parse(result.medical_implants)
+
+                                if(result.medical_implants_position!="" && result.medical_implants_position!=null)
+                                    medicalImplantsPosition = JSON.parse(result.medical_implants_position)
+
+                                if(result.emp_gender!=""){
+                                    $("#gender").val(result.emp_gender);
+                                    loadSvgAndDraw("{{ url_for('static', filename='human_object/') }}" + result.emp_gender + ".svg",medicalImplantsPosition);
+                                }
+                            }
+                        } else {
+
+                            $(".blinking-text").text(result.msg).show();
+                            $("#error-alert").show()
+                            timeOut = setTimeout(function () {
+                                $("#error-alert").attr('style','display:none !important')
+                            }, 4000);
+                            resetVideo();
+                            $("#emp_number").text("");
+                            $("#emp_name").text("");
+                            $("#gender").val("");
+                            $("#out-line-img").prop("src", '');
+                            medical_implants=[]
+                        }
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {  // Handle error response
+                        console.error('AJAX error:', textStatus, errorThrown);
+                        canvas.style.display = 'none';
+                        video.style.display = 'block';
+                        $("#emp_number").text("");
+                        $("#emp_name").text("");
+                        $("#gender").val("");
+                        $("#out-line-img").prop("src", '');
+                    }
+                });
+            }, 'image/jpg');
+        });
+
+        // Call loadSvgAndDraw on load
+        //loadSvgAndDraw(svgUrl);
+
+
+        $('body').on("click", "#clear", function () {
+            clearDots()
+        })
+
+        $.ajaxSetup({
+            statusCode: {
+                401: function (jqXHR) {
+                    // Log the status for debugging
+                    console.log("401 response received:", jqXHR);
+
+                    // Attempt to parse the response text as JSON
+                    try {
+                        const data = JSON.parse(jqXHR.responseText);
+                        alert(data.message);  // Notify the user
+                        window.location.href = data.redirect;  // Redirect to login page
+                    } catch (error) {
+                        console.error('Error parsing JSON:', error);
+                    }
+                }
+            }
+        });
+    };
+
+</script>
+{% endblock %}

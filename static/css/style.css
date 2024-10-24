@@ -1,0 +1,102 @@
+body {
+  padding-top: 1.5rem;
+  font-family: "Roboto", sans-serif;
+  font-style: normal;
+  background-color: #083265;
+}
+
+.text-block {
+  color: #04172e;
+  padding: 20px;
+  margin-bottom: 30px;
+  background-color: #ffffff;
+  border-radius: 5px;
+}
+
+.text-block p:last-of-type {
+  margin-bottom: 0;
+}
+
+.img-box {
+  padding: 20px 5px;
+  box-shadow: rgba(248, 248, 250, 0.2) 0px 7px 29px 0px;
+}
+
+
+
+.img-box img {
+  height: 615px;
+}
+
+
+
+.webcam-box {
+  border: 1px solid #ffffff;
+  width: 505;
+  height: 380;
+  border-radius: 5px;
+
+}
+
+.cam-data {
+  background-color: #ffffff;
+  max-width: 100%;
+  width: 100%;
+  height: auto;
+}
+
+#video {
+  transform: scaleX(1);
+  /* Flip the video horizontally */
+  -webkit-transform: scaleX(-1);
+}
+
+video,
+#canvas {
+  border: 1px solid #ddd;
+}
+
+.outline-img {
+  border-radius: 5px;
+  background-color: #0b2646;
+  height: 600px;
+  width: 600px;
+}
+
+@keyframes blink {
+
+  0%,
+  50%,
+  100% {
+    opacity: 1;
+  }
+
+  25%,
+  75% {
+    opacity: 0;
+  }
+}
+
+.blinking-text {
+  color: red;
+  padding: 5px 20px;
+  font-weight: bold;
+  margin-top: 10px;
+  background-color: #ffffff;
+  border-radius: 5px;
+  animation: blink 3s infinite;
+}
+
+.dot {
+  height: 10px;
+  width: 10px;
+  background-color: red;
+  border-radius: 50%;
+  position: absolute;
+}
+
+.btn {
+  outline: none;
+  box-shadow: none !important;
+  border: 1px solid transparent !important;
+}

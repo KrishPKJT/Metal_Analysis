@@ -1,0 +1,142 @@
+CREATE TABLE IF NOT EXISTS public.bodyparts
+(
+    id bigint NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 9223372036854775807 CACHE 1 ),
+    body_parts_name character varying(250) COLLATE pg_catalog."default" NOT NULL,
+    "createdAt" timestamp without time zone,
+    CONSTRAINT bodyparts_pkey PRIMARY KEY (id)
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE IF EXISTS public.bodyparts
+    OWNER to postgres;
+
+
+///////////////////////////////
+
+CREATE TABLE IF NOT EXISTS public.buildings
+(
+    id bigint NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 9223372036854775807 CACHE 1 ),
+    building_name character varying(250) COLLATE pg_catalog."default" NOT NULL,
+    "createdAt" timestamp without time zone
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE IF EXISTS public.buildings
+    OWNER to postgres;
+
+////////////////////////////////
+
+
+
+CREATE TABLE IF NOT EXISTS public.employees
+(
+    id integer NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 2147483647 CACHE 1 ),
+    name character varying(250) COLLATE pg_catalog."default" NOT NULL,
+    employee_number character varying(120) COLLATE pg_catalog."default" NOT NULL,
+    gender character varying(50) COLLATE pg_catalog."default",
+    image character varying(500) COLLATE pg_catalog."default",
+    medical_implants character varying(5000) COLLATE pg_catalog."default",
+    medical_implants_position character varying(5000) COLLATE pg_catalog."default",
+    created_by bigint,
+    CONSTRAINT employees_pkey PRIMARY KEY (id)
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE IF EXISTS public.employees
+    OWNER to postgres;
+
+
+///////////////////////////////////////////////
+
+CREATE TABLE IF NOT EXISTS public.employees_log
+(
+    id bigint NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 9223372036854775807 CACHE 1 ),
+    points character varying(20000) COLLATE pg_catalog."default",
+    log_date_time character varying(250) COLLATE pg_catalog."default" NOT NULL,
+    employee_number character varying(120) COLLATE pg_catalog."default" NOT NULL,
+    status character(5) COLLATE pg_catalog."default",
+    shift character varying(15) COLLATE pg_catalog."default",
+    objects character varying(200000) COLLATE pg_catalog."default",
+    building bigint,
+    floor smallint,
+    station smallint,
+    object_ids character varying(2000) COLLATE pg_catalog."default",
+    created_by bigint,
+    CONSTRAINT employees_log_pkey PRIMARY KEY (id)
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE IF EXISTS public.employees_log
+    OWNER to postgres;
+
+/////////////////////////////////
+
+CREATE TABLE IF NOT EXISTS public.floors
+(
+    id bigint NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 9223372036854775807 CACHE 1 ),
+    floor_name character varying(250) COLLATE pg_catalog."default" NOT NULL,
+    building_id bigint NOT NULL,
+    "createdAt" timestamp without time zone
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE IF EXISTS public.floors
+    OWNER to postgres;
+////////////////////////////////////
+
+CREATE TABLE IF NOT EXISTS public.objectmappings
+(
+    id bigint NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 9223372036854775807 CACHE 1 ),
+    object_name character varying(250) COLLATE pg_catalog."default" NOT NULL,
+    gender character varying(150) COLLATE pg_catalog."default" NOT NULL,
+    body_part_id bigint NOT NULL,
+    "createdAt" timestamp without time zone
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE IF EXISTS public.objectmappings
+    OWNER to postgres;
+
+//////////////////////////////////////////////
+CREATE TABLE IF NOT EXISTS public.stations
+(
+    id bigint NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 9223372036854775807 CACHE 1 ),
+    station_name character varying(250) COLLATE pg_catalog."default" NOT NULL,
+    building_id bigint NOT NULL,
+    floor_id bigint NOT NULL,
+    "createdAt" timestamp without time zone
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE IF EXISTS public.stations
+    OWNER to postgres;
+
+/////////////////////////////////////////////
+CREATE TABLE IF NOT EXISTS public.users
+(
+    id integer NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 2147483647 CACHE 1 ),
+    name character varying(250) COLLATE pg_catalog."default" NOT NULL,
+    username character varying(250) COLLATE pg_catalog."default" NOT NULL,
+    password character varying(250) COLLATE pg_catalog."default" NOT NULL,
+    "createdAt" timestamp without time zone,
+    "lastLogin" timestamp without time zone,
+    role character varying(15) COLLATE pg_catalog."default",
+    status character varying(15) COLLATE pg_catalog."default",
+    rights character varying(2000) COLLATE pg_catalog."default"
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE IF EXISTS public.users
+    OWNER to postgres;
+///////////////
+
+
+

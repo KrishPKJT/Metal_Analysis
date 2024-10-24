@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <title>Log In | TATA</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta content="" name="description" />
+    <meta content="" name="author" />
+    <link rel="shortcut icon" href="{{ url_for('static', filename='images/logo.png') }}">
+    <script src="{{ url_for('static', filename='js/config.js') }}"></script>
+    <link href="{{ url_for('static', filename='css/vendor.min.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ url_for('static', filename='css/app.min.css') }}" rel="stylesheet" type="text/css" id="app-style" />
+<style>
+    button svg{
+        margin-right: 10px;
+    }
+</style>
+</head>
+
+<body>
+    <div class="auth-bg d-flex min-vh-100 justify-content-center align-items-center">
+        <div class="row g-0 justify-content-center w-100 m-xxl-5 px-xxl-4 m-3">
+            <div class="col-xl-4 col-lg-5 col-md-6">
+                <div class="card overflow-hidden text-center h-100 p-xxl-4 p-3 mb-0">
+                    <a href="index.html" class="auth-brand mb-3">
+                      
+                    </a>
+
+                    <h3 class="fw-semibold mb-2">Login Your Account</h3>
+
+                    <form action="{{url_for('login.setShift')}}" method="post" class="text-start mb-2 mt-3">
+                        <div class="mb-3">
+                            <label class="form-label">Building</label>
+                            <select  name="building" class="form-control" id="building" required>
+                                <option value="B1">B1</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Floor</label>
+                            <select  name="floor" class="form-control" id="floor" required>
+                                
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Station</label>
+                            <select  name="station" class="form-control" id="station" required>
+                              
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Shift</label>
+                            <select  name="shift" class="form-control" required>
+                                <option value="S1">Shift 1</option>
+                                <option value="S2">Shift 2</option>
+                                <option value="S3">Shift 3</option>
+                            </select>
+                        </div>
+                        <div class="d-grid text-center">
+                            <center><button class="btn btn-success col-md-5" type="submit">OK</button></center>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <script src="{{ url_for('static', filename='js/vendor.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+    <script type="text/javascript">
+         $(document).ready(function() {
+           
+            getbuildinglist();
+
+            function getbuildinglist()
+            {
+            $.ajax({
+                url: '/building/list', // Flask route to fetch building data
+                type: 'GET',
+                success: function(response) {
+                    if (response.data) {
+                        var buildingDropdown = $('#building');
+                        buildingDropdown.empty(); 
+                        buildingDropdown.append('<option value="">Select Building</option>');                     
+                        $.each(response.data, function(index, building) {
+                            buildingDropdown.append('<option value="' + building.id + '" data-id="'+building.id+'" >' + building.building_name + '</option>');
+                        });
+
+                        
+                    }
+                },
+                error: function() {
+                    alert('Error loading building data');
+                }
+            });
+
+            }
+
+            $("body").on("change","#building",function(){
+                var bid = $("#building").find(":selected").attr("data-id");
+                getfloor(bid);
+
+            })
+               $("body").on("change","#floor",function(){
+                getstation();
+
+            })
+
+
+
+
+    function getfloor(buildingId)
+    {
+        $('#floor').empty();
+        $.ajax({
+            url: '/floor/list', // Backend route to get floor data
+            type: 'POST',
+            data: { building_id: buildingId },
+            success: function(response) {
+                if (response.length > 0) {
+                    // Populate the floor select box with the received floor data
+                    var floorDropdown = $('#floor');
+                    floorDropdown.empty(); 
+                    floorDropdown.append('<option value="">Select floor</option>');    
+                    for(var i in response){
+                         floorDropdown.append('<option value="' + response[i]['id'] + '" data-id="'+response[i]['id']+'" >' +response[i]['floor_name'] + '</option>');
+                    }
+                    
+               
+                } else {
+                    $('#floor').append('<option>No floors available</option>');
+                }
+            },
+            
+            error: function() {
+                console.error('Error fetching floor data');
+            }
+        });
+    }
+
+     function getstation()
+    {
+        var building_id=$("#building").find(":selected").attr("data-id");;
+        var floor_id=$("#floor").find(":selected").attr("data-id");;
+
+        $('#station').empty();
+        $.ajax({
+            url: '/station/list', // Backend route to get floor data
+            type: 'POST',
+            data: { building_id: building_id,floor_id:floor_id },
+            success: function(response) {
+                if (response.length > 0) {
+                    // Populate the floor select box with the received floor data
+                    var stationDropdown = $('#station');
+                    stationDropdown.empty(); 
+                    stationDropdown.append('<option value="">Select station</option>');    
+                    for(var i in response){
+                        stationDropdown.append('<option value="' + response[i]['id'] + '" data-id="'+response[i]['id']+'" >' +response[i]['station_name'] + '</option>');
+                    }
+                    
+               
+                } else {
+                    $('#station').append('<option>No stations available</option>');
+                }
+            },
+            
+            error: function() {
+                console.error('Error fetching station data');
+            }
+        });
+    }
+         });
+    </script>
+</body>
+</html>

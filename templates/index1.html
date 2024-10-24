@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Capture and Upload Image</title>
+</head>
+<body>
+    <h1>Capture and Upload Image</h1>
+    <video id="video" width="640" height="480" autoplay></video>
+    <button id="capture">Capture</button>
+    <canvas id="canvas" width="640" height="480" style="display:none;"></canvas>
+    <button id="upload">Upload</button>
+
+    <script>
+        const video = document.getElementById('video');
+        const canvas = document.getElementById('canvas');
+        const context = canvas.getContext('2d');
+        const captureButton = document.getElementById('capture');
+        const uploadButton = document.getElementById('upload');
+
+        console.log(navigator.mediaDevices)
+        // Access the camera
+        navigator.mediaDevices.getUserMedia({ video: true })
+            .then(stream => {
+                video.srcObject = stream;
+            })
+            .catch(err => {
+                console.error("Error accessing the camera: " + err);
+            });
+
+        // Capture the image when the button is clicked
+        captureButton.addEventListener('click', () => {
+            context.drawImage(video, 0, 0, canvas.width, canvas.height);
+            canvas.style.display = 'block'; // Show the canvas with the captured image
+        });
+
+        // Upload the image to the Flask server
+        uploadButton.addEventListener('click', () => {
+            canvas.toBlob((blob) => {
+                const formData = new FormData();
+                formData.append('file', blob, 'captured_image.png');
+                url = 'https://172.16.17.45:5000/upload';
+                url = 'http://127.0.0.1:5000/upload'
+                fetch(url, {
+                    method: 'POST',
+                    body: formData,
+                })
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Success:', data);
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+            });
+        });
+    </script>
+</body>
+</html>

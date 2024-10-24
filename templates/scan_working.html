@@ -1,0 +1,538 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="page-content">
+    <div class="page-container">
+        <div class="row">
+            <div class="col-3">
+                <div class="page-title-head d-flex align-items-sm-center flex-sm-row flex-column">
+                    <div class="flex-grow-1">
+                        <h4 class="fs-18 fw-semibold m-0">Scan</h4>
+                    </div>
+                </div>
+            </div>
+            <div class="col-9">
+                {% if session['role'] != 'admin' %}
+                <input type="hidden" id="building" value="{{session['building']}}">
+                <input type="hidden" id="floor" value="{{session['floor']}}">
+                <input type="hidden" id="station" value="{{session['station']}}">
+                <input type="hidden" id="shift" value="{{session['shift']}}">
+
+                <div class="row mt-3">
+                    <div class="col">
+                        <h6 class="fs-15 mt-1">Shift : <span class="shift">{{session['shift']}}</span></h6>
+                    </div>
+                    <div class="col">
+                        <h6 class="fs-15 mt-1">Building : <span class="building">{{session['building']}}</span></h6>
+                    </div>
+                    <div class="col">
+                        <h6 class="fs-15 mt-1">Floor : <span class="floor">{{session['floor']}}</span></h6>
+                    </div>
+                    <div class="col">
+                        <h6 class="fs-15 mt-1">Station : <span class="station">{{session['station']}}</span></h6>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="">
+            <div class="">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-body px-3 scan-data">
+
+                                {% if log_id %}
+                                <input type="hidden" id="log_id" value="{{log_id}}">
+                                {% endif %}
+
+
+                                <h6 class="fs-15 mt-0">Employee Number : <span id="emp_number"></span></h6>
+                                <h6 class="fs-15 mt-3">Employee Name : <span id="emp_name"></span></h6>
+
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <h6 class="fs-15 mt-2">Gender</h6>
+                                        <select class="form-select" id="gender">
+                                            <option value="">--select--</option>
+                                            <option value="male">Male</option>
+                                            <option value="female">Female</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="col-md-4 offset-md-2">
+                                        <h6 class="fs-15 mt-1">&nbsp;</h6>
+                                        <div class="form-check form-check-inline mt-2">
+                                            <input type="radio" class="form-check-input status" name="status" value="in"
+                                                id="in" checked>
+                                            <label class="form-check-label" for="in">IN</label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <input type="radio" class="form-check-input status" name="status"
+                                                value="out" id="out">
+                                            <label class="form-check-label" for="out">OUT</label>
+                                        </div>
+                                    </div>
+                                    <h6 id="log_datetime" class="mt-3" style="display: none;">Log Date & Time :
+                                        <span></span>
+                                    </h6>
+                                    <div id="objectListget"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <img src="{{request.root}}static/uploads/id-card-image1.jpg" id="scannedCard"
+                            style="display:none">
+                        <div class="card webcam-box">
+                            <div class="card-body px-3">
+                                <div class="preview-video">
+                                    <center><video id="video" width="480" height="360" autoplay></video></center>
+                                    <center><canvas id="canvas" width="480" height="360"
+                                            style="display:none;overflow: hidden !important;"></canvas></center>
+                                </div>
+
+                                <div class="text-center mt-2">
+                                    <button id="capture" class="btn btn-info">Capture</button>
+                                    <button id="save" class="btn btn-success">Save</button>
+                                    <a id="" href="/list-view" class="btn btn-warning">Logs</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-body px-3">
+                                <!-- <div class="mf-img">
+                                    <img src="../img/male.svg" />
+                                </div> -->
+
+                                <div class="outline-img" style="display: none;">
+
+
+                                    <!-- <canvas id="outline-canvas" width="200" height="500"></canvas> -->
+                                </div>
+                                <button id="clear" class="btn btn-danger mt-2 float-right">Clear</button>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+
+                </div>
+            </div>
+        </div>
+
+
+        <div class="row">
+            <div class="col">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="d-block">
+                            <div class="text-block">
+                            </div>
+                        </div>
+                        <div class="d-block">
+                            <div class="webcam-box text-center">
+                                <div class="cam-data">
+
+                                    <center>
+
+                                    </center>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <p class="blinking-text" style="display: none;">Employee not found</p>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="objectModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Select Object</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="objecList">
+
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="getSelectedObject" class="btn btn-primary">Save changes</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+{%block javascripts %}
+<script type="text/javascript" src="{{request.root}}static/js/jquery-3.7.1.min.js"></script>
+<script>
+    window.onload = function () {
+        const video = document.getElementById('video');
+        const canvas = document.getElementById('canvas');
+        const context = canvas.getContext('2d');
+        const captureButton = document.getElementById('capture');
+        const uploadButton = document.getElementById('save');
+        let svgUrl = '{{request.root}}static/human_object/male.svg'; // Initial SVG file path
+
+        function isMobileDevice() {
+            return /Mobi|Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+        }
+
+        // Access the camera
+        if ($("#log_id").length == 0) {
+            if (isMobileDevice()) {
+                constraints = {
+                    video: { facingMode: { exact: "environment" } }
+                }
+            } else {
+                constraints = { video: true }
+            }
+            //navigator.mediaDevices.getUserMedia({ video: true }){ video: true,facingMode:'environment' }
+            navigator.mediaDevices.getUserMedia(constraints)
+                .then(stream => {
+                    video.srcObject = stream;
+                })
+                .catch(err => {
+                    console.error("Error accessing the camera: " + err);
+                });
+        } else {
+            $("#log_datetime").show()
+        }
+
+        // Define positions for manual dots
+        // dotPositions = [
+        //     {x:320.1999969482422,y:105.5999984741211},
+        //     {x:298.1999969482422,y:81.39999389648438}
+        // ];
+
+
+        if ($("#log_id").length == 1) {
+            $("#clear").hide()
+            $.ajax({
+                type: "GET",
+                url: "{{request.root}}get-log-details",
+                data: { id: $("#log_id").val() },
+                dataType: "json",
+                success: function (res) {
+                    $("#emp_number").text(res.employee_number)
+                    $("#emp_name").text(res.employee_name)
+                    $("#gender").val(res.employee_gender)
+                    $("#log_datetime > span").text(res.log_date_time)
+                    $(".webcam-box").hide()
+                    loadSvgAndDraw('{{request.root}}static/human_object/' + res.employee_gender + '.svg')
+                    points = JSON.parse(res.points)
+                    obj = JSON.parse(res.objects)
+                    dotPositions = points
+                    objects = obj
+
+                    $("#scannedCard").show()
+                }
+            });
+        }
+
+
+        // Function to load and draw the SVG
+        function loadSvgAndDraw(svgUrl) {
+            $(".outline-img").show()
+
+            fetch(svgUrl)
+                .then(response => response.text())
+                .then(svgText => {
+                    $(".outline-img").html(svgText)
+
+
+                    for (var i in objects) {
+                        $("#objectListget").append(' <h6 class="fs-15 mt-3">' + objects[i]['g'] + ' : ' + objects[i]['o'] + '</h6>')
+                    }
+                    svg = document.querySelector("svg");
+                    for (var i in dotPositions) {
+                        addDot(dotPositions[i]['x'], dotPositions[i]['y'])
+                        // $("#objectListget").append(' <h6 class="fs-15 mt-3">'+objects[i]['g']+' : '+objects[i]['o']+'</h6>')
+                    }
+                });
+
+            // Clear the canvas before loading new SVG
+            // ctx.clearRect(0, 0, outLineCanvas.width, outLineCanvas.height);
+
+            // fetch(svgUrl)
+            //     .then(response => response.text())
+            //     .then(svgText => {
+            //         // Create a temporary DOM element to parse SVG
+            //         const parser = new DOMParser();
+            //         const svgDoc = parser.parseFromString(svgText, 'image/svg+xml');
+            //         const svgElement = svgDoc.documentElement;
+
+            //         // Get SVG width and height
+            //         const svgWidth = parseFloat(svgElement.getAttribute('width')) || 0;
+            //         const svgHeight = parseFloat(svgElement.getAttribute('height')) || 0;
+
+            //         // Set canvas width and height based on SVG dimensions
+            //         outLineCanvas.width = svgWidth;
+            //         outLineCanvas.height = svgHeight;
+
+            //         // Create an SVG image element
+            //         const svgImage = new Image();
+            //         const svgBlob = new Blob([svgText], { type: 'image/svg+xml;charset=utf-8' });
+            //         const svgObjectUrl = URL.createObjectURL(svgBlob);
+
+            //         svgImage.onload = function () {
+            //             // Draw SVG on canvas
+            //             ctx.drawImage(svgImage, 0, 0);
+            //             URL.revokeObjectURL(svgObjectUrl);
+
+            //             // Call addDot function to add predefined dots AFTER the SVG is drawn
+            //             addDot();
+            //         };
+
+            //         svgImage.src = svgObjectUrl;
+            //     });
+        }
+
+        // Function to add dots
+        function addDot(x, y) {
+            svg = document.querySelector("svg");
+            const dot = document.createElementNS(
+                "http://www.w3.org/2000/svg",
+                "circle"
+            );
+            dot.setAttribute("class", "red-dot");
+            dot.setAttribute("cx", x);
+            dot.setAttribute("cy", y);
+            dot.setAttribute("r", 2.5);
+            svg.appendChild(dot);
+
+            // ctx.fillStyle = 'rgba(255, 0, 0)'; // Red color with 50% opacity
+            // dotPositions.forEach(dot => {
+            //     ctx.beginPath();
+            //     ctx.arc(dot.x, dot.y, 5, 0, Math.PI * 2); // Draw a smaller circle with radius 5
+            //     ctx.fill();
+            // });
+
+        }
+
+        function clearDots() {
+            const canvas = document.getElementById('outline-canvas');
+            const ctx = canvas.getContext('2d');
+            // Clear the entire canvas
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            dotPositions = []
+            objecList = []
+            bodyPartgroupName = ''
+            $("#gender").change()
+        }
+
+        dotPositions = [];
+        objects = [];
+        bodyPartgroupName = ''
+
+        $("body").on("click", "#getSelectedObject", function () {
+            objects.push({ g: bodyPartgroupName, 'o': $(".selecedObject:checked").val() })
+            $("#objectModal").modal('hide')
+        })
+
+        $("body").on("click", "svg", function (event) {
+            if (event.target.tagName === "path") {
+                const svg = document.querySelector("svg");
+                const path = event.target;
+                const dataName = path.getAttribute("data-name") || path.id;
+                const groupName = path.getAttribute("group-name") || path.id;
+                bodyPartgroupName = groupName
+                // Get the SVG coordinates of the click
+                const svgPoint = svg.createSVGPoint();
+                svgPoint.x = event.clientX;
+                svgPoint.y = event.clientY;
+                const cursorPoint = svgPoint.matrixTransform(
+                    svg.getScreenCTM().inverse()
+                );
+
+                // Prepare output string
+                const output = `${dataName}, x=${cursorPoint.x.toFixed(
+                    3
+                )}, y=${cursorPoint.y.toFixed(3)}`;
+
+                // Show the output in an alert
+                dotPositions.push({ x: cursorPoint.x, y: cursorPoint.y })
+
+                $.ajax({
+                    url: '/object/getgender-object-list',
+                    type: 'POST',
+                    data: { body_part: groupName.charAt(0).toUpperCase() + groupName.slice(1), gender: $("#gender").val() },
+                    success: function (data) {
+
+                        $("#objectModal").modal('show')
+                        $(".objecList").html("")
+                        objec = 'Watch'
+                        for (var i in data) {
+                            $(".objecList").append("<input type='radio' class='selecedObject' value='" + data[i]['object_name'] + "' ><label>" + data[i]['object_name'] + "</label>")
+                        }
+                    }
+                });
+
+
+                // Add red dot at the click position
+                const dot = document.createElementNS(
+                    "http://www.w3.org/2000/svg",
+                    "circle"
+                );
+                dot.setAttribute("class", "red-dot");
+                dot.setAttribute("cx", cursorPoint.x);
+                dot.setAttribute("cy", cursorPoint.y);
+                dot.setAttribute("r", 2.5);
+                svg.appendChild(dot);
+            }
+        })
+
+        // Handle click events
+        // outLineCanvas.addEventListener('click', function (event) {
+        //     const rect = outLineCanvas.getBoundingClientRect();
+        //     const x = event.clientX - rect.left;
+        //     const y = event.clientY - rect.top;
+        //     dotPositions.push({ x: x, y: y })
+
+        //     addDot()
+        //     console.log(`Clicked position: (${x}, ${y})`);
+        // });
+
+
+        $("body").on("click", "#save", function () {
+
+            if ($("#gender").val() == "") {
+                alert("Select gender")
+                return false
+            }
+
+            $(".blinking-text").hide()
+            $.ajax({
+                type: "POST",
+                url: "/saveData",
+                data: { emp_number: $("#emp_number").text(), name: $("#emp_name").text(), gender: $("#gender").val(), 'status': $(".status:checked").val(), 'shift': $("#shift").val(), 'building': $("#building").val(), 'floor': $("#floor").val(), 'station': $("#station").val(), points: JSON.stringify(dotPositions), 'object': JSON.stringify(objects) },
+                dataType: "json",
+                success: function (res) {
+                    if (res.status == 'ok') {
+                        alert('Saved successfully')
+                        resetVideo()
+                        $("#emp_number").text("")
+                        $("#emp_name").text("")
+                        $("#gender").val("")
+                        clearDots()
+                        $(".outline-img").hide()
+                    } else {
+                        alert("Failed:Can't save the data")
+                    }
+                }, error: function (err) {
+                    alert('Something went wrong')
+                    console.log('Something went wrong');
+                    // resetVideo()
+                    // $("#emp_number").text("")
+                    // $("#emp_name").text("")
+                    // $("#gender").val("")
+                }
+            });
+
+        })
+
+        $("body").on("change", "#gender", function () {
+            var gender = $(this).val()
+            setHumanObjectOutLine(gender)
+        })
+
+        function setHumanObjectOutLine(gender) {
+            const newSvgUrl = '{{request.root}}static/human_object/' + gender + '.svg';
+            loadSvgAndDraw(newSvgUrl); // Reload canvas with new SVG
+        }
+
+        timeOut = "";
+        function resetVideo() {
+            canvas.style.display = 'none';
+            video.style.display = 'block';
+        }
+
+        // Capture the image when the button is clicked
+        captureButton.addEventListener('click', () => {
+            if (timeOut != "") {
+                clearTimeout(timeOut)
+                $(".blinking-text").hide()
+            }
+
+
+            // context.drawImage(video, 0, 0, video.width, video.height);
+            context.drawImage(video, 0, 0, video.width, video.height);
+            canvas.style.display = 'block'; // Show the canvas with the captured image
+            video.style.display = 'none';
+            canvas.toBlob(function (blob) {
+                const formData = new FormData();
+                formData.append('image', blob, 'id-card-image1.jpg');
+                formData.append('gender', $("#gender").val());
+                console.log(formData);
+                url = '{{request.root}}upload';
+                fetch(url, {
+                    method: 'POST',
+                    body: formData
+                })
+                    .then(response => response.json())
+                    .then(result => {
+                        if (result.status == 'ok') {
+                            if (result.emp_number == "") {
+                                $(".blinking-text").text("Employee not found").show()
+                                resetVideo()
+                                empNotFound();
+                                timeOut = setTimeout(function () {
+                                    $(".blinking-text").hide()
+                                }, 4000)
+                            } else {
+                                $("#emp_number").text(result.emp_number)
+                                $("#emp_name").text(result.emp_name)
+                                $("#gender").val(result.emp_gender)
+                                loadSvgAndDraw('{{request.root}}static/human_object/' + result.emp_gender + '.svg')
+                            }
+                        } else {
+                            // setOutLineInCanvas("")
+                            $(".blinking-text").text(result.msg).show()
+                            timeOut = setTimeout(function () {
+                                $(".blinking-text").hide()
+                            }, 4000)
+                            resetVideo()
+                            $("#emp_number").text("")
+                            $("#emp_name").text("")
+                            $("#gender").val("")
+                            $("#out-line-img").prop("src", '')
+                        }
+                    })
+                    .catch(error => {
+                        // setOutLineInCanvas("")
+                        canvas.style.display = 'none';
+                        video.style.display = 'block';
+                        $("#emp_number").text("")
+                        $("#emp_name").text("")
+                        $("#gender").val("")
+                        $("#out-line-img").prop("src", '')
+                    });
+            }, 'image/jpg');
+        });
+
+        // Call loadSvgAndDraw on load
+        //loadSvgAndDraw(svgUrl);
+
+
+        $('body').on("click", "#clear", function () {
+            clearDots()
+        })
+    };
+
+</script>
+{% endblock %}

@@ -1,0 +1,242 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <meta name="generator" content="Hugo 0.101.0">
+  <title>Image Capture</title>
+  <link rel="canonical" href="">
+  <link href="static/css/bootstrap.min.css" rel="stylesheet">
+  <link href="static/css/style.css" rel="stylesheet">
+</head>
+<body>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6">
+        <div class="d-block">
+          <div class="text-block">
+            <p class="blinking-text" style="display: none;">Employee not found</p>
+            <p>Employee Number : <span id="emp_number"></span></p>
+            <p>Name : <span id="emp_name"></span></p>
+            <p>Gender : <select id="gender">
+                <option value="">--select--</option>
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+            </select></p>
+          </div>
+        </div>
+        <div class="d-block">
+          <div class="webcam-box text-center">
+            <div class="cam-data">
+              <video class="w-100 mb-2" id="video" width="505" height="380" style="-webkit-transform: scaleX(1);transform: scaleX(1);" autoplay></video>
+              <canvas id="canvas" width="505" height="380"  style="display:none;"></canvas>
+            </div>
+            <button id="capture" class="btn btn-success mt-3">Capture</button>
+            <button id="save" class="btn btn-success mt-3">Save</button>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="img-box">
+          <p>X:<span id="x"></span></p>
+          <p>Y:<span id="y"></span></p>
+           <canvas id="outline-canvas" width="600" height="400" style="border:1px solid #000;"></canvas> 
+          <img id="out-line-img" src="static/img/male1.svg" alt="Outline image" />
+        </div>
+      </div>
+    </div>
+  </div>
+  <script type="text/javascript" src="static/js/jquery-3.7.1.min.js"></script>
+  <script type="text/javascript">
+    $(function () {
+    const video = document.getElementById('video');
+    const canvas = document.getElementById('canvas');
+    const context = canvas.getContext('2d');
+    const captureButton = document.getElementById('capture');
+    const uploadButton = document.getElementById('save');
+    const outlineCanvas = document.getElementById('outline-canvas');
+    const ctx = canvas.getContext('2d');
+
+    let svgUrl = 'static/human_object/male.svg'; // Initial SVG file path
+
+    // Define positions for manual dots
+    const dotPositions = [
+        { x: 100, y: 150 },
+        { x: 300, y: 200 },
+        { x: 500, y: 100 }
+    ];
+
+    // Function to load and draw the SVG
+    function loadSvgAndDraw(svgUrl) {
+        // Clear the canvas before loading new SVG
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        fetch(svgUrl)
+            .then(response => response.text())
+            .then(svgText => {
+                // Create a temporary DOM element to parse SVG
+                const parser = new DOMParser();
+                const svgDoc = parser.parseFromString(svgText, 'image/svg+xml');
+                const svgElement = svgDoc.documentElement;
+
+                // Get SVG width and height
+                const svgWidth = parseFloat(svgElement.getAttribute('width')) || 0;
+                const svgHeight = parseFloat(svgElement.getAttribute('height')) || 0;
+
+                // Set canvas width and height based on SVG dimensions
+                canvas.width = svgWidth;
+                canvas.height = svgHeight;
+
+                // Create an SVG image element
+                const svgImage = new Image();
+                const svgBlob = new Blob([svgText], { type: 'image/svg+xml;charset=utf-8' });
+                const svgObjectUrl = URL.createObjectURL(svgBlob);
+
+                svgImage.onload = function() {
+                    // Draw SVG on canvas
+                    ctx.drawImage(svgImage, 0, 0);
+                    URL.revokeObjectURL(svgObjectUrl);
+
+                    // Call addDot function to add predefined dots AFTER the SVG is drawn
+                    addDot();
+                };
+
+                svgImage.src = svgObjectUrl;
+            });
+    }
+
+    // Function to add dots
+    function addDot() {
+        ctx.fillStyle = 'rgba(255, 0, 0, 0.5)'; // Red color with 50% opacity
+        dotPositions.forEach(dot => {
+            ctx.beginPath();
+            ctx.arc(dot.x, dot.y, 5, 0, Math.PI * 2); // Draw a smaller circle with radius 5
+            ctx.fill();
+        });
+    }
+
+    // Handle click events
+    outlineCanvas.addEventListener('click', function(event) {
+        const rect = canvas.getBoundingClientRect();
+        const x = event.clientX - rect.left;
+        const y = event.clientY - rect.top;
+
+        // Add color to the clicked position
+        ctx.fillStyle = 'rgba(255, 0, 0, 0.5)'; // Red color with 50% opacity
+        ctx.beginPath();
+        ctx.arc(x, y, 5, 0, Math.PI * 2); // Draw a smaller circle with radius 5
+        ctx.fill();
+
+        console.log(`Clicked position: (${x}, ${y})`);
+    });
+
+    // Call loadSvgAndDraw on load
+    loadSvgAndDraw(svgUrl);
+  
+    $("body").on("click","#save",function() {
+        $(".blinking-text").hide()
+        resetVideo()
+        $("#emp_number").text("")
+        $("#emp_name").text("")
+        $("#gender").val("")
+        $("#out-line-img").prop("src",'')
+    })
+    // Access the camera
+    navigator.mediaDevices.getUserMedia({ video: true })
+      .then(stream => {
+          video.srcObject = stream;
+      })
+      .catch(err => {
+          console.error("Error accessing the camera: " + err);
+      });
+
+    $("body").on("change","#gender",function(){
+      sGender = $(this).val()
+      setOutlineCanvas(sGender)
+      if(sGender==""){
+        $("#out-line-img").prop("src","")
+      }else{
+        $("#out-line-img").prop("src","static/img/"+sGender+".svg")
+      }
+    })
+
+    timeOut = "";
+
+    function empNotFound(){
+
+    }
+    
+    function resetVideo() {
+      canvas.style.display = 'none'; 
+      video.style.display = 'block';
+    }
+    
+    // Capture the image when the button is clicked
+    captureButton.addEventListener('click', () => {
+        if(timeOut!=""){
+          clearTimeout(timeOut)
+          $(".blinking-text").hide()
+        }
+        context.drawImage(video, 0, 0, canvas.width, canvas.height);
+        canvas.style.display = 'block'; // Show the canvas with the captured image
+        video.style.display = 'none';
+        canvas.toBlob(function(blob) {
+          const formData = new FormData();
+          formData.append('image', blob, 'id-card-image.jpg');
+          formData.append('gender', $("#gender").val());
+          console.log(formData);
+           url = 'https://172.16.17.45:5000/upload';
+          fetch(url, {
+              method: 'POST',
+              body: formData
+          })
+          .then(response => response.json())
+          .then(result => {
+              if(result.status=='ok'){
+                  if(result.emp_number==""){
+                    $(".blinking-text").text("Employee not found").show()
+                    resetVideo()
+                    empNotFound();
+                    timeOut = setTimeout(function () {
+                      $(".blinking-text").hide()
+                    },4000)
+                    
+                  }else{
+                    $("#emp_number").text(result.emp_number)
+                    $("#emp_name").text(result.emp_name)
+                    $("#gender").val(result.emp_gender)
+                    $("#out-line-img").prop("src","static/img/"+result.emp_gender+".svg")
+                    //setOutLineInCanvas(result.emp_gender)
+                  }
+              }else{
+               // setOutLineInCanvas("")
+                $(".blinking-text").text(result.msg).show()
+                timeOut = setTimeout(function () {
+                  $(".blinking-text").hide()
+                },4000)
+                resetVideo()
+                $("#emp_number").text("")
+                $("#emp_name").text("")
+                $("#gender").val("")
+                $("#out-line-img").prop("src",'')
+              }
+          })
+          .catch(error => {
+           // setOutLineInCanvas("")
+            canvas.style.display = 'none'; 
+            video.style.display = 'block';
+            $("#emp_number").text("")
+            $("#emp_name").text("")
+            $("#gender").val("")
+            $("#out-line-img").prop("src",'')
+          });
+          
+        },'image/jpg');
+    });
+
+  });
+</script>
+</body>
+</html>

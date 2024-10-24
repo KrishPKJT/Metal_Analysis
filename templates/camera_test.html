@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Access Mobile Back Camera</title>
+</head>
+<body>
+    <video id="video" width="320" height="240" autoplay></video>
+
+    <script>
+        async function startCamera() {
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({
+                    video: {
+                        facingMode: 'environment' // This specifies the back camera
+                    }
+                });
+                const videoElement = document.getElementById('video');
+                videoElement.srcObject = stream;
+            } catch (err) {
+                console.error('Error accessing camera: ', err);
+            }
+        }
+
+        startCamera();
+    </script>
+</body>
+</html>

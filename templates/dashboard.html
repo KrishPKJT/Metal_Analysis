@@ -1,0 +1,96 @@
+{% extends 'base.html' %}
+{% block content %}
+<!-- Page Content Starts Here -->
+<div class="page-content">
+    <div class="page-container">
+        <div class="row">
+                    <div class="col-12">
+                        <div class="page-title-head d-flex align-items-sm-center flex-sm-row flex-column">
+                            <div class="flex-grow-1">
+                                <h4 class="fs-18 fw-semibold m-0">Dashboard</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="row mt-0">
+                    <div class="col">
+                        <div class="row row-cols-xxl-4 row-cols-md-2 row-cols-1 text-center">
+                            <div class="col">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h5 class="text-black fs-13 text-uppercase" title="Today Entry OUT">Today Entry IN</h5>
+                                        <div class="d-flex align-items-center justify-content-center gap-2 my-2 py-1">
+                                            <div class="user-img fs-42 flex-shrink-0">
+                                                <span class="avatar-title text-bg-primary rounded-circle fs-22">
+                                                    <i class="ti ti-door-enter"></i>
+                                                </span>
+                                            </div>
+                                            <h3 class="mb-0 fw-bold in-count"></h3>
+                                        </div>
+                                       
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h5 class="text-black fs-13 text-uppercase" title="Today Entry OUT">Today Entry OUT</h5>
+                                        <div class="d-flex align-items-center justify-content-center gap-2 my-2 py-1">
+                                            <div class="user-img fs-42 flex-shrink-0">
+                                                <span class="avatar-title text-bg-primary rounded-circle fs-22">
+                                                    <i class="ti ti-door-exit"></i>
+                                                </span>
+                                            </div>
+                                            <h3 class="mb-0 fw-bold out-count"></h3>
+                                        </div>
+                                       
+                                    </div>
+                                </div>
+                            </div><!-- end col -->
+
+                        </div><!-- end row -->
+
+
+ 
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+{% endblock %}
+{%block javascripts %}
+<script src="{{request.root}}static/js/dataTables.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function(){
+        getlogdatacount();
+        function getlogdatacount()
+    {
+        $.ajax({
+            url: '/log/get-list', 
+            type: 'GET',
+            success: function(response) {
+                if (response) {
+                   
+                    $('.in-count').text(response.in);
+                    $('.out-count').text(response.out);
+                }
+            },
+            error: function() {
+                alert('Error in fetching count data....');
+            }
+        });
+   
+    }
+    });
+    </script>
+{% endblock %}
