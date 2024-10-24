@@ -12,7 +12,6 @@ ALTER TABLE IF EXISTS public.bodyparts
     OWNER to postgres;
 
 
-///////////////////////////////
 
 CREATE TABLE IF NOT EXISTS public.buildings
 (
@@ -26,7 +25,6 @@ TABLESPACE pg_default;
 ALTER TABLE IF EXISTS public.buildings
     OWNER to postgres;
 
-////////////////////////////////
 
 
 
@@ -48,8 +46,6 @@ TABLESPACE pg_default;
 ALTER TABLE IF EXISTS public.employees
     OWNER to postgres;
 
-
-///////////////////////////////////////////////
 
 CREATE TABLE IF NOT EXISTS public.employees_log
 (
@@ -73,7 +69,6 @@ TABLESPACE pg_default;
 ALTER TABLE IF EXISTS public.employees_log
     OWNER to postgres;
 
-/////////////////////////////////
 
 CREATE TABLE IF NOT EXISTS public.floors
 (
@@ -87,7 +82,6 @@ TABLESPACE pg_default;
 
 ALTER TABLE IF EXISTS public.floors
     OWNER to postgres;
-////////////////////////////////////
 
 CREATE TABLE IF NOT EXISTS public.objectmappings
 (
@@ -103,7 +97,6 @@ TABLESPACE pg_default;
 ALTER TABLE IF EXISTS public.objectmappings
     OWNER to postgres;
 
-//////////////////////////////////////////////
 CREATE TABLE IF NOT EXISTS public.stations
 (
     id bigint NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 9223372036854775807 CACHE 1 ),
@@ -118,7 +111,6 @@ TABLESPACE pg_default;
 ALTER TABLE IF EXISTS public.stations
     OWNER to postgres;
 
-/////////////////////////////////////////////
 CREATE TABLE IF NOT EXISTS public.users
 (
     id integer NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 2147483647 CACHE 1 ),
@@ -136,7 +128,6 @@ TABLESPACE pg_default;
 
 ALTER TABLE IF EXISTS public.users
     OWNER to postgres;
-///////////////
 
 
 
